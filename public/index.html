@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar with Profile Option -->
+    <header class="navbar">
+        <h2>Student Dashboard</h2>
+        <div class="profile">
+            <button onclick="redirectToProfile()">Profile</button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="main-container">
+        <!-- Left section for Progress and Topic selection -->
+        <div class="progress-container">
+            <h3>Your Progress</h3>
+            <div class="progress-bar">
+                <div class="progress" id="progress" style="width: 70%;">70%</div>
+            </div>
+
+            <h3>Select Topic and Question</h3>
+            <form id="topicForm">
+                <label for="topic-select">Topic:</label>
+                <select id="topic-select" name="topic" onchange="loadQuestions()">
+                    <option value="" disabled selected>Select a topic</option>
+                    <!-- Topics will be dynamically loaded here -->
+                </select>
+
+                <label for="question-select">Question:</label>
+                <select id="question-select" name="question">
+                    <option value="" disabled selected>Select a question</option>
+                    <!-- Questions will be dynamically loaded here -->
+                </select>
+
+                <button type="button" id="start-question-button">Start Question</button>
+            </form>
+        </div>
+
+        <!-- Right section for All Topics and Questions -->
+        <div class="question-list-container">
+            <h3>All Topics and Questions</h3>
+            <div class="topic-group">
+                <h4>Stacks</h4>
+                <ul>
+                    <li>Implement Stack using Queue</li>
+                    <li>Evaluate Postfix Expression</li>
+                    <li>Design a Stack with Min Function</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Queues</h4>
+                <ul>
+                    <li>Implement Queue using Stack</li>
+                    <li>Design Circular Queue</li>
+                    <li>Priority Queue Implementation</li>
+                </ul>
+            </div>
+            <div class="topic-group">
+                <h4>Linked Lists</h4>
+                <ul>
+                    <li>Implement Singly Linked List</li>
+                    <li>Detect Cycle in Linked List</li>
+                    <li>Reverse Linked List</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
