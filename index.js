@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const problemRoutes = require("./routes/problemRoutes");
 const submissionRoutes = require("./routes/submissionRoutes");
+const topicRoutes = require("./routes/topicRoutes");
+const path = require('path');
 require("dotenv").config();
 
 const app = express();
@@ -15,6 +17,15 @@ const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/problems', problemRoutes);
 app.use('/api/submissions', submissionRoutes);
+app.use('/api/topics', topicRoutes);
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve the solve page for problem-solving
+app.get('/solve/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'solve.html')); // Adjust path if needed
+});
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI) 

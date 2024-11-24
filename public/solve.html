@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solve Problem</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h2>Solve Problem</h2>
+    </header>
+
+    <div class="solve-container">
+        <h3>Problem: <span id="problem-title"></span></h3>
+        
+        <form id="solve-form">
+            <label for="language-select">Select Language:</label>
+            <select id="language-select" name="language">
+                <option value="JavaScript">JavaScript</option>
+                <option value="Python">Python</option>
+                <option value="C++">C++</option>
+            </select>
+
+            <label for="code-input">Code:</label>
+            <textarea id="code-input" name="code" rows="10" placeholder="Write your code here..."></textarea>
+
+            <button type="submit" id="submit-button">Submit</button>
+        </form>
+
+        <div id="submission-status" style="display:none;">
+            <h3>Status: <span id="status-text">Pending</span></h3>
+            <pre id="output-text"></pre>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

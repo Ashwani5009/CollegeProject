@@ -1,12 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const problemSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    difficulty: { type: String, enum: ["easy", "medium", "hard"], required: true },
-    topic: { type: mongoose.Schema.Types.ObjectId, ref: "Topic", required: true },
-    testCases: [{ input: String, output: String }],
+    input: { type: String, required: true },
+    output: { type: String, required: true },
+    constraints: { type: String, required: false },
+    examples: [{ input: String, output: String }],
+    topic: { type: mongoose.Schema.Types.ObjectId, ref: 'Topic', required: true },
 });
 
-const Problem = mongoose.model("Problem", problemSchema);
+const Problem = mongoose.model('Problem', problemSchema);
 module.exports = Problem;

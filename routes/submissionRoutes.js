@@ -1,13 +1,21 @@
 const express = require("express");
 const axios = require("axios");
 const Submission = require("../models/Submission");
-const authMiddleware = require("../middlewares/authMiddleware")
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
+
+// Middleware to verify authentication
+router.use(authMiddleware);  // Ensure the user is authenticated for all routes in this file
 
 // Submit a new solution
 router.post("/", async (req, res) => {
    const { user, problem, code, language } = req.body;
+
+   // Validate that all required fields are provided
+   if (!user || !problem || !code || !language) {
+      return res.status(400).json({ message: "All fields (user, problem, code, language) are required" });
+   }
 
    const submission = new Submission({
       user,
@@ -38,17 +46,23 @@ router.post("/", async (req, res) => {
       );
 
       const submissionResult = judge0Response.data;
-      newSubmission.status = submissionResult.status.description; // Update status based on the result
 
-      // Handle result: output or error
+      // Handle possible missing data in response
+      if (!submissionResult.status || !submissionResult.stdout) {
+         throw new Error("Invalid response from Judge0");
+      }
+
+      newSubmission.status = submissionResult.status.description; // Update status based on the result
       newSubmission.output = submissionResult.stdout || submissionResult.stderr;
+      
+      // Save the result
       await newSubmission.save();
 
       // Respond with the submission result
       res.status(201).json(newSubmission);
    } catch (error) {
       console.error(error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: "An error occurred while processing the submission: " + error.message });
    }
 });
 

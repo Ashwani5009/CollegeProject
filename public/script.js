@@ -24,9 +24,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Event listener for topic selection
     topicSelect.addEventListener("change", async () => {
         const selectedTopicId = topicSelect.value;
-        
+
         // Clear existing problem options
         problemSelect.innerHTML = '<option value="" disabled selected>Select a Problem</option>';
+        problemSelect.disabled = true;
 
         // Fetch problems for the selected topic
         try {
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     option.textContent = problem.title;
                     problemSelect.appendChild(option);
                 });
+                problemSelect.disabled = false;
             } else {
                 console.error("No problems found for this topic");
             }
@@ -47,17 +49,52 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("Error fetching problems:", error);
         }
     });
+
+    // Event listener for problem submission
+    document.getElementById("start-question-button").addEventListener("click", async () => {
+        const selectedProblemId = problemSelect.value;
+        if (!selectedProblemId) {
+            alert("Please select a problem first.");
+            return;
+        }
+
+        // Redirect to the problem-solving page or display problem content
+        window.location.href = `/solve/${selectedProblemId}`; // Redirect to the problem-solving page
+    });
 });
 
-document.getElementById("start-question-button").addEventListener("click", function () {
-    const questionSelect = document.getElementById("question-select");
-    const selectedProblemId = questionSelect.value;
+// Event listener for code submission on the problem-solving page
+document.getElementById("solve-form")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    if (selectedProblemId) {
-        // Redirect to the problem page or load the problem based on your application's logic
-        console.log(`Selected problem ID: ${selectedProblemId}`);
-        // For example, you could set window.location.href or call another function to load the question
-    } else {
-        alert("Please select a question first.");
+    const code = document.getElementById("code-input").value;
+    const language = document.getElementById("language-select").value;
+    const problemId = new URLSearchParams(window.location.search).get('problemId'); // Get problem ID from URL
+
+    const submissionData = {
+        user: "user_id_placeholder", // Replace with actual user ID from session or token
+        problem: problemId,
+        code,
+        language,
+    };
+
+    try {
+        const response = await fetch("http://localhost:5000/api/submissions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(submissionData),
+        });
+
+        const submissionResult = await response.json();
+        
+        // Handle the response and display the status
+        document.getElementById("status-text").textContent = submissionResult.status;
+        document.getElementById("output-text").textContent = submissionResult.output || "No output available.";
+    } catch (error) {
+        console.error("Error submitting the solution:", error);
+        document.getElementById("status-text").textContent = "Error";
+        document.getElementById("output-text").textContent = "An error occurred while submitting your solution.";
     }
 });
