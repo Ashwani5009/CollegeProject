@@ -3,37 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solve Problem</title>
+    <title>Code Submission</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h2>Solve Problem</h2>
-    </header>
+    <div class="main-container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>Code Submission</h1>
+        </header>
 
-    <div class="solve-container">
-        <h3>Problem: <span id="problem-title"></span></h3>
-        
-        <form id="solve-form">
-            <label for="language-select">Select Language:</label>
-            <select id="language-select" name="language">
-                <option value="JavaScript">JavaScript</option>
-                <option value="Python">Python</option>
-                <option value="C++">C++</option>
-            </select>
+        <!-- Question Details Section -->
+        <section class="question-details">
+            <h2>Question: <span id="questionName">Loading...</span></h2>
+            <a id="questionAnchor" href="#" target="_blank">Loading question link...</a>
+        </section>
 
-            <label for="code-input">Code:</label>
-            <textarea id="code-input" name="code" rows="10" placeholder="Write your code here..."></textarea>
+        <!-- Code Form Section -->
+        <section class="form-container">
+            <form id="codeForm">
+                <label for="language">Select Language:</label>
+                <select id="language" name="language">
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="cpp">C++</option>
+                </select>
 
-            <button type="submit" id="submit-button">Submit</button>
-        </form>
+                <label for="code">Enter Code:</label>
+                <textarea id="code" name="code" rows="15" placeholder="Write your code here..."></textarea>
 
-        <div id="submission-status" style="display:none;">
-            <h3>Status: <span id="status-text">Pending</span></h3>
-            <pre id="output-text"></pre>
-        </div>
+                <div class="button-group">
+                    <button type="button" onclick="submitCode()">Submit Code</button>
+                    <button type="button" onclick="showHint()">Hint</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Result Section -->
+        <section class="result-container">
+            <h2>Result:</h2>
+            <p id="resultMessage">Submit code to see result here.</p>
+        </section>
     </div>
 
-    <script src="script.js"></script>
+    <script src="solve.js"></script>
 </body>
 </html>

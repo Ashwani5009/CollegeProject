@@ -31,7 +31,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
             localStorage.setItem("token", data.token);
 
             // Redirect to dashboard or another secure page
-            window.location.href = "/home/ashwani/study-assistant-backend/public/index.html";
+            window.location.href = "index.html";
         } else {
             // Login failed
             alert("Login failed: " + data.message);
