@@ -44,7 +44,7 @@ function showHint() {
 
 // Main logic for dynamic problem loading and code submission
 document.addEventListener("DOMContentLoaded", async () => {
-    const problemId = window.location.pathname.split('/').pop(); // Extract problem ID from URL
+    const problemId = sessionStorage.getItem('problemId'); // Extract problem ID from URL
     const problemTitleElement = document.getElementById("problem-title");
     const problemDescriptionElement = document.getElementById("problem-description");
     const problemIOElement = document.getElementById("problem-input-output");
