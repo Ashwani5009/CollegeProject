@@ -1,0 +1,188 @@
+/* Profile Popup Styles */
+.profile-popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #f5f5f5; /* Light neutral background */
+    box-shadow: -4px 0px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 20px;
+    border-radius: 10px 0 0 10px;
+}
+
+.profile-content {
+    text-align: center;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 2px solid #6c757d; /* Subtle border */
+}
+
+.profile h3 {
+    margin: 10px 0;
+    color: #333333; /* Neutral black */
+    font-size: 18px;
+}
+
+.profile button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Blue for CTA */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Navbar */
+.navbar {
+    background-color: #2f4858; /* Deep teal */
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Navbar shadow */
+}
+
+.navbar h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Blue for Profile button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.navbar button:hover {
+    background-color: #0056b3; /* Hover effect for button */
+}
+
+/* Main Container */
+.main-container {
+    display: flex;
+    padding: 20px;
+    background-color: #eef5f9; /* Soft background for the entire page */
+}
+
+/* Left Section: Progress and Topic Input */
+.progress-container {
+    width: 60%;
+    padding: 20px;
+    background-color: #ffffff; /* Clean white for focus */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    margin-right: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #e9ecef; /* Light gray for inactive progress bar */
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.progress {
+    height: 30px;
+    background-color: #28a745; /* Green for progress */
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* Form styles */
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #495057; /* Neutral dark text */
+}
+
+select,
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da; /* Subtle border for inputs */
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff; /* Consistent blue for buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue hover */
+}
+
+/* Right Section: Questions List */
+.question-list-container {
+    width: 35%;
+    padding: 20px;
+    background-color: #ffffff; /* Clean white for focus */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.question-list-container h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333333; /* Neutral black */
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #f8f9fa; /* Very light gray for contrast */
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+ul li:hover {
+    background-color: #e9ecef; /* Slightly darker hover effect */
+}
+
+/* Scrollbar Styling */
+.question-list-container {
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.question-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.question-list-container::-webkit-scrollbar-thumb {
+    background-color: #adb5bd; /* Light gray scrollbar */
+    border-radius: 10px;
+}
