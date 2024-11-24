@@ -59,8 +59,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
+        sessionStorage.setItem('problemId', selectedProblemId); 
+
         // Redirect to the problem-solving page
-        window.location.href = `/solve/${selectedProblemId}`;
+        window.location.href = "solve.html";
     });
 
     // Event listener for code submission on the problem-solving page
