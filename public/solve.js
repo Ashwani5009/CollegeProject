@@ -59,6 +59,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         theme: "default",
     });
 
+    const problemIdDisplay = document.getElementById('problemIdDisplay');
+    
+    if (problemIdDisplay) {
+        // Display the problem ID on the page
+        problemIdDisplay.textContent = problemId;
+    }
+
     // Fetch problem details by ID
     try {
         const response = await fetch(`http://localhost:5000/api/problems/${problemId}`);
