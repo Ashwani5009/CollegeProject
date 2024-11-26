@@ -6,24 +6,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     const codeEditor = document.getElementById("code-editor");
     const submitButton = document.getElementById("submit-code-button");
 
+    // Initialize CodeMirror editor
     const editor = CodeMirror.fromTextArea(codeEditor, {
         lineNumbers: true,
         mode: "javascript",
         theme: "dracula",
     });
 
+    // Fetch problem details using problemId
     try {
         const response = await fetch(`http://localhost:5000/api/problems/${problemId}`);
         if (response.ok) {
             const problem = await response.json();
+
+            // Update the problem title, description, and input/output formats
             if (problemTitleElement) {
                 problemTitleElement.textContent = problem.title;
             }
+
             if (problemDescriptionElement) {
                 problemDescriptionElement.textContent = problem.description;
             }
+
             if (problemIOElement) {
-                problemIOElement.textContent = `Input: ${problem.input_format}\nOutput: ${problem.output_format}\nConstraints: ${problem.constraints}`;
+                problemIOElement.textContent = `Input: ${problem.input || 'N/A'}\nOutput: ${problem.output || 'N/A'}\nConstraints: ${problem.constraints || 'N/A'}`;
             }
         } else {
             console.error("Problem not found.");
@@ -32,6 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error fetching problem:", error);
     }
 
+    // Handle code submission
     if (submitButton) {
         submitButton.addEventListener("click", async () => {
             const code = editor.getValue();
@@ -44,6 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const language = document.getElementById("language").value;
             const languageId = getLanguageId(language);
 
+            // Submit the code to the backend for evaluation
             try {
                 const response = await fetch("http://localhost:5000/api/submissions", {
                     method: "POST",
@@ -62,6 +70,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const result = await response.json();
                 if (response.ok && result.submission) {
                     const { status, output, execution_time, memory_usage } = result.submission;
+
+                    // Display the result of code submission
                     document.getElementById("resultMessage").innerText = `Status: ${status}\nOutput: ${output}`;
                     document.getElementById("executionResults").style.display = "block";
                     document.getElementById("status").innerText = status;
@@ -77,20 +87,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
+    // Function to map language selection to corresponding language ID
     function getLanguageId(language) {
         switch (language) {
             case 'python':
-                return 71;
+                return 71;  // Python
             case 'java':
-                return 62;
+                return 62;  // Java
             case 'cpp':
-                return 54;
+                return 54;  // C++
             default:
-                return 71; // Default to Python 3
+                return 71;  // Default to Python
         }
     }
 });
 
+// Function to show hint for the selected problem
 function showHint() {
     const problemId = sessionStorage.getItem('problemId');
 
@@ -108,4 +120,3 @@ function showHint() {
             alert("Failed to fetch hint.");
         });
 }
-
