@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Submission</title>
     <link rel="stylesheet" href="style.css">
-</head>
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.64.0/codemirror.min.css">
+
+    <!-- CodeMirror Theme CSS (Optional - Use a working theme) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.64.0/theme/dracula.min.css">
+    </head>
 <body>
     <div class="main-container">
         <!-- Header Section -->
@@ -30,10 +35,11 @@
                 </select>
 
                 <label for="code">Enter Code:</label>
-                <textarea id="code" name="code" rows="15" placeholder="Write your code here..."></textarea>
+                <textarea id="code-editor" name="code" rows="15" placeholder="Write your code here..."></textarea>
 
                 <div class="button-group">
-                    <button type="button" onclick="submitCode()">Submit Code</button>
+                    <!-- Remove the onclick attribute here -->
+                    <button type="button" id="submit-code-button">Submit Code</button>
                     <button type="button" onclick="showHint()">Hint</button>
                 </div>
             </form>
@@ -43,9 +49,17 @@
         <section class="result-container">
             <h2>Result:</h2>
             <p id="resultMessage">Submit code to see result here.</p>
+            <!-- Added fields to display execution results -->
+            <div id="executionResults" style="display: none;">
+                <p><strong>Status:</strong> <span id="status"></span></p>
+                <p><strong>Output:</strong> <pre id="output"></pre></p>
+                <p><strong>Execution Time:</strong> <span id="execution-time"></span></p>
+                <p><strong>Memory Usage:</strong> <span id="memory-usage"></span></p>
+            </div>
         </section>
     </div>
-
+    
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.64.0/codemirror.min.js"></script>
     <script src="solve.js"></script>
 </body>
 </html>

@@ -1,27 +1,21 @@
-// Handle dynamic problem loading and code submission
 document.addEventListener("DOMContentLoaded", async () => {
-    const problemId = sessionStorage.getItem('problemId'); // Extract problem ID from sessionStorage
+    const problemId = sessionStorage.getItem('problemId');
     const problemTitleElement = document.getElementById("problem-title");
     const problemDescriptionElement = document.getElementById("problem-description");
     const problemIOElement = document.getElementById("problem-input-output");
     const codeEditor = document.getElementById("code-editor");
     const submitButton = document.getElementById("submit-code-button");
-    const testResultsElement = document.getElementById("test-results");
 
-    // Initialize CodeMirror for code editor
     const editor = CodeMirror.fromTextArea(codeEditor, {
         lineNumbers: true,
         mode: "javascript",
-        theme: "default",
+        theme: "dracula",
     });
 
-    // Fetch problem details by ID
     try {
         const response = await fetch(`http://localhost:5000/api/problems/${problemId}`);
-        const problem = await response.json();
-
-        if (response.ok && problem) {
-            // Populate problem details dynamically
+        if (response.ok) {
+            const problem = await response.json();
             if (problemTitleElement) {
                 problemTitleElement.textContent = problem.title;
             }
@@ -38,79 +32,68 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error("Error fetching problem:", error);
     }
 
-    // Handle code submission
-    submitButton?.addEventListener("click", async () => {
-        const code = editor.getValue(); // Get code from the editor
+    if (submitButton) {
+        submitButton.addEventListener("click", async () => {
+            const code = editor.getValue();
 
-        if (!code) {
-            alert("Please write some code.");
-            return;
-        }
-
-        // Send code to the server for evaluation
-        try {
-            const response = await fetch("http://localhost:5000/api/submit", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    problemId: problemId,
-                    code: code,
-                }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                // Show test results
-                testResultsElement.innerHTML = result.testResults
-                    .map((test) => {
-                        return `<div>Test Case: ${test.testCase}<br>Result: ${test.result}</div>`;
-                    })
-                    .join('');
-            } else {
-                console.error("Error submitting code:", result.message);
+            if (!code) {
+                alert("Please write some code.");
+                return;
             }
-        } catch (error) {
-            console.error("Error submitting code:", error);
+
+            const language = document.getElementById("language").value;
+            const languageId = getLanguageId(language);
+
+            try {
+                const response = await fetch("http://localhost:5000/api/submissions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQ1ZDA0ZmJhNTdiNWZhNmQ4MTYwN2QiLCJpYXQiOjE3MzI2MzU2MzAsImV4cCI6MTczMjYzOTIzMH0.k2okyZdT8OmnE_YKRgRKtWXnFZbB4enZyW6Lvma1zlo"
+                    },
+                    body: JSON.stringify({
+                        problem: problemId,
+                        code: code,
+                        language_id: languageId,
+                        stdin: "",
+                    }),
+                });
+
+                const result = await response.json();
+                if (response.ok && result.submission) {
+                    const { status, output, execution_time, memory_usage } = result.submission;
+                    document.getElementById("resultMessage").innerText = `Status: ${status}\nOutput: ${output}`;
+                    document.getElementById("executionResults").style.display = "block";
+                    document.getElementById("status").innerText = status;
+                    document.getElementById("output").innerText = output || "No Output";
+                    document.getElementById("execution-time").innerText = execution_time ? `${execution_time} sec` : "N/A";
+                    document.getElementById("memory-usage").innerText = memory_usage ? `${memory_usage} MB` : "N/A";
+                } else {
+                    console.error("Error submitting code:", result);
+                }
+            } catch (error) {
+                console.error("Error submitting code:", error);
+            }
+        });
+    }
+
+    function getLanguageId(language) {
+        switch (language) {
+            case 'python':
+                return 71;
+            case 'java':
+                return 62;
+            case 'cpp':
+                return 54;
+            default:
+                return 71; // Default to Python 3
         }
-    });
+    }
 });
 
-// Main logic for displaying the question data on page load
-window.onload = function () {
-    const problemId = sessionStorage.getItem('problemId'); // Get problem ID from sessionStorage
-
-    // Fetch question data dynamically from the server
-    fetch(`http://localhost:5000/api/problems/${problemId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data) {
-                // Set the question title
-                const questionNameElement = document.getElementById('questionName');
-                if (questionNameElement) {
-                    questionNameElement.innerText = data.title;
-                }
-
-                // Set the question link
-                const questionAnchor = document.getElementById('questionAnchor');
-                if (questionAnchor) {
-                    questionAnchor.href = data.link;
-                    questionAnchor.innerText = `View the full question: ${data.title}`;
-                }
-            } else {
-                console.error("Failed to load question data.");
-            }
-        })
-        .catch(error => console.error("Error loading question data:", error));
-};
-
-// Show hint for the selected problem
 function showHint() {
-    const problemId = sessionStorage.getItem('problemId'); // Get problem ID from sessionStorage
+    const problemId = sessionStorage.getItem('problemId');
 
-    // Fetch hint for the problem
     fetch(`http://localhost:5000/api/problems/${problemId}`)
         .then(response => response.json())
         .then(data => {
@@ -124,20 +107,5 @@ function showHint() {
             console.error("Error fetching hint:", error);
             alert("Failed to fetch hint.");
         });
-}
-
-// Handle code submission for dynamic problem data
-function submitCode() {
-    const language = document.getElementById('language').value;
-    const code = document.getElementById('code').value;
-
-    if (code.trim() === '') {
-        alert('Please enter some code before submitting.');
-        return;
-    }
-
-    // Mock success message (replace with actual API call)
-    document.getElementById('resultMessage').innerText =
-        'Code submitted successfully! Running test cases...';
 }
 
