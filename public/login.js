@@ -28,7 +28,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
             alert("Login successful");
 
             // Store the token securely (consider sessionStorage or cookies for sensitive data)
-            localStorage.setItem("token", data.token);
+            sessionStorage.setItem('token', data.token);
 
             // Redirect to dashboard or another secure page
             window.location.href = "index.html";
@@ -47,7 +47,7 @@ const logoutBtn = document.getElementById("logout-btn");
 if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
         // Clear token from local storage
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
 
         // Redirect to the login page
         window.location.href = "/login.html";

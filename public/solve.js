@@ -1,5 +1,13 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const problemId = sessionStorage.getItem('problemId');
+    const token = sessionStorage.getItem('token');
+    
+    if (!token) {
+        alert("You are not logged in!");
+        window.location.href = "login.html";
+        return;
+    }
+
     const problemTitleElement = document.getElementById("problem-title");
     const problemDescriptionElement = document.getElementById("problem-description");
     const problemIOElement = document.getElementById("problem-input-output");
@@ -57,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQ1ZDA0ZmJhNTdiNWZhNmQ4MTYwN2QiLCJpYXQiOjE3MzI2MzU2MzAsImV4cCI6MTczMjYzOTIzMH0.k2okyZdT8OmnE_YKRgRKtWXnFZbB4enZyW6Lvma1zlo"
+                        "Authorization": `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         problem: problemId,
@@ -74,8 +82,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     // Display the result of code submission
                     document.getElementById("resultMessage").innerText = `Status: ${status}\nOutput: ${output}`;
                     document.getElementById("executionResults").style.display = "block";
-                    document.getElementById("status").innerText = status;
-                    document.getElementById("output").innerText = output || "No Output";
+                    // document.getElementById("status").innerText = status;
+                    // document.getElementById("output").innerText = output || "No Output";
                     document.getElementById("execution-time").innerText = execution_time ? `${execution_time} sec` : "N/A";
                     document.getElementById("memory-usage").innerText = memory_usage ? `${memory_usage} MB` : "N/A";
                 } else {

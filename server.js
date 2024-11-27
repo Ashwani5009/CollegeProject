@@ -9,6 +9,7 @@ const submissionRoutes = require("./routes/submissionRoutes");
 const problemRoutes = require("./routes/problemRoutes");
 const topicRoutes = require("./routes/topicRoutes");
 const path = require("path");
+const bcrypt = require("bcrypt");
 
 // Load environment variables
 dotenv.config();
@@ -39,7 +40,6 @@ app.post("/register", async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Username already taken" });
     }
-
     // Create a new user
     const newUser = new User({ username, password });
     await newUser.save();
@@ -61,7 +61,6 @@ app.post("/login", async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
-
     // Validate password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
