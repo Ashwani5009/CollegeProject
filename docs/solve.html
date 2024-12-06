@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Submission</title>
+    <link rel="stylesheet" href="style.css">
+    
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.64.0/codemirror.min.css">
+
+    <!-- CodeMirror Theme CSS (Optional - Use a working theme) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.64.0/theme/dracula.min.css">
+    </head>
+<body>
+    <div class="main-container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>Code Submission</h1>
+        </header>
+
+         <!-- Question Details Section -->
+        <section class="question-details">
+            <h2>Question: <span id="problem-title">Loading...</span></h2>
+            <a id="questionAnchor" href="#" target="_blank">Question Link...</a>
+            <div id="problem-description">Loading description...</div>
+            <pre id="problem-input-output">Loading problem input/output...</pre>
+        </section>
+        <!-- Code Form Section -->
+        <section class="form-container">
+            <form id="codeForm">
+                <label for="language">Select Language:</label>
+                <select id="language" name="language">
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="cpp">C++</option>
+                </select>
+
+                <label for="code">Enter Code:</label>
+                <textarea id="code-editor" name="code" rows="15" placeholder="Write your code here..."></textarea>
+
+                <div class="button-group">
+                    <!-- Remove the onclick attribute here -->
+                    <button type="button" id="submit-code-button">Submit Code</button>
+                    <button type="button" onclick="showHint()">Hint</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Result Section -->
+        <section class="result-container">
+            <h2>Result:</h2>
+            <p id="resultMessage">Submit code to see result here.</p>
+            <!-- Added fields to display execution results -->
+            <div id="executionResults" style="display: none;">
+                <!-- <p><strong>Status:</strong> <span id="status"></span></p> -->
+                <!-- <p><strong>Output:</strong> <pre id="output"></pre></p> -->
+                <p><strong>Execution Time:</strong> <span id="execution-time"></span></p>
+                <p><strong>Memory Usage:</strong> <span id="memory-usage"></span></p>
+            </div>
+        </section>
+    </div>
+    
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.64.0/codemirror.min.js"></script>
+    <script src="solve.js"></script>
+</body>
+</html>
