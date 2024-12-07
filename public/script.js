@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Fetch topics on page load
     try {
-        const topicResponse = await fetch("http://localhost:5000/api/topics");
+        const topicResponse = await fetch("https://collegeproject-fnkx.onrender.com/api/topics");
         const topics = await topicResponse.json();
 
         if (topicResponse.ok && topics.length > 0) {

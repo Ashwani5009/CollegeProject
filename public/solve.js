@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Fetch problem details using problemId
     try {
-        const response = await fetch(`http://localhost:5000/api/problems/${problemId}`);
+        const response = await fetch(`https://collegeproject-fnkx.onrender.com/api/problems/${problemId}`);
         if (response.ok) {
             const problem = await response.json();
 
