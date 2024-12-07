@@ -14,7 +14,7 @@ const bcrypt = require("bcrypt");
 // Load environment variables
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "6cad35a0117a8205b2ca78772f6a20637f93343849a386e9bcd22ba3efcdcaeec16cd768fb00298d32f80158b83db44d356fd3d266a647628cf2f149d73ca418";
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/study-assistant";
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://ashwani:22001015009@db@cluster0.se9jy.mongodb.net/study-assistant";
 const JUDGE0_API_KEY = process.env.JUDGE0_API_KEY;
 const JUDGE0_API_URL = "https://judge0-ce.p.rapidapi.com"
 
