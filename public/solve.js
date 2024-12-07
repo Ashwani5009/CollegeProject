@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 function showHint() {
     const problemId = sessionStorage.getItem('problemId');
 
-    fetch(`http://localhost:5000/api/problems/${problemId}`)
+    fetch(`https://collegeproject-fnkx.onrender.com/api/problems/${problemId}`)
         .then(response => response.json())
         .then(data => {
             if (data && data.hint) {
