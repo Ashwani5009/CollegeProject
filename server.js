@@ -30,6 +30,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sign-up.html'));
 });
 
+// Serve index.html on /index route
+app.get('/index', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Register Route
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
