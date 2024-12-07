@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Serve the sign_up.html file for the root route
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'sign-up.html'));
+  res.sendFile(path.join(__dirname, 'public', 'sign_up.html'));
 });
 
 // Serve index.html on /index route
