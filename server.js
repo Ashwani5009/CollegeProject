@@ -25,16 +25,6 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Serve the sign_up.html file for the root route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'sign_up.html'));
-});
-
-// Serve index.html on /index route
-app.get('/index', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 // Register Route
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
@@ -126,6 +116,11 @@ app.post('/submit-code', async (req, res) => {
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/problems", problemRoutes);
 app.use("/api/topics", topicRoutes);
+
+// Serve the sign_up.html file for the root route
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "sign_up.html"));
+});
 
 // Connect to MongoDB
 mongoose
