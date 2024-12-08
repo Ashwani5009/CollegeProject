@@ -5,15 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Progress</title>
     <link rel="stylesheet" href="index.css">
+    <style>
+        /* Add some styles for the profile modal */
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 20%;
+            right: 5%;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 1000;
+            width: 300px;
+            text-align: center;
+        }
+
+        .profile-modal h3 {
+            margin: 0 0 10px;
+        }
+
+        .profile-modal p {
+            margin: 5px 0;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            height: 20px;
+            background-color: #4caf50;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            border-radius: 5px;
+        }
+
+        /* Profile photo styles */
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ccc;
+            margin-bottom: 10px;
+            cursor: pointer; /* Indicates it's clickable */
+        }
+
+        /* Upload button for changing profile photo (hidden) */
+        .upload-button input {
+            display: none;
+        }
+
+        /* Style for logout button */
+        .logout-button {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .logout-button:hover {
+            background-color: #ff3333;
+        }
+
+    </style>
 </head>
 <body>
     <!-- Navbar with Profile Option -->
     <header class="navbar">
         <h2>Student Dashboard</h2>
         <div class="profile">
-            <button onclick="redirectToProfile()">Profile</button>
+            <button onclick="toggleProfileModal()">Profile</button>
         </div>
     </header>
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="modal-overlay" onclick="toggleProfileModal()"></div>
+    <div class="profile-modal" id="profile-modal">
+        <h3>User Profile</h3>
+        <!-- Display Profile Photo -->
+        <img id="profile-photo" class="profile-photo" src="https://t3.ftcdn.net/jpg/07/13/35/82/360_F_713358254_pM12hayFvGkMbXwU1wERawwC2Tu3Mfpy.jpg" alt="Profile Photo" onclick="triggerFileInput()">
+        
+        <p><strong>Username:</strong> <span id="username">Guest</span></p>
+        <p><strong>Progress:</strong> <span id="progress-percentage">0%</span></p>
+        
+        <!-- Hidden Upload Photo Section, activated by clicking the profile photo -->
+        <div class="upload-button">
+            <input type="file" id="upload-photo" accept="image/*" onchange="changeProfilePhoto(event)">
+        </div>
+
+        <!-- Logout and Close buttons -->
+        <button class="logout-button" onclick="logout()">Logout</button>
+        <button onclick="toggleProfileModal()">Close</button>
+    </div>
+
     <!-- Main Content Area -->
     <div class="main-container">
         <!-- Left section for Progress and Topic selection -->
@@ -25,7 +130,7 @@
             <h3>Select Topic and Question</h3>
             <form id="topicForm">
                 <label for="topic-select">Topic:</label>
-                <select id="topic-select" name="topic" onchange="loadQuestions()"></select>
+                <select id="topic-select" name="topic">
                     <option value="" disabled selected>Select a topic</option>
                     <!-- Topics will be dynamically loaded here -->
                 </select>
@@ -65,18 +170,70 @@
             </div>
         </div>
     </div>
-    <!-- Profile Popup -->
-    <div id="profilePopup" class="profile-popup">
-        <div class="profile-content">
-            <img src="https://t3.ftcdn.net/jpg/07/13/35/82/360_F_713358254_pM12hayFvGkMbXwU1wERawwC2Tu3Mfpy.jpg" alt="Profile Picture" class="profile-image">
-            <h3>User Name</h3>
-            <h3>User@123</h3>
-            <p>Email: user@example.com</p>
-            <p>Progress: 0%</p>
-            <button onclick="closeProfile()">Close</button>
-            <button onclick="logout()">Logout</button>
-        </div>
-    </div>
+
     <script src="script.js"></script>
+    <script>
+        // Toggle the profile modal visibility
+        function toggleProfileModal() {
+            const modal = document.getElementById("profile-modal");
+            const overlay = document.getElementById("modal-overlay");
+
+            // Dynamically update the username and progress
+            const username = sessionStorage.getItem("username") || "Guest";
+            const completedQuestions = JSON.parse(sessionStorage.getItem("completedQuestions") || "[]");
+            const totalQuestions = 15; // Example total number of questions
+            const progressPercentage = Math.round((completedQuestions.length / totalQuestions) * 100);
+
+            document.getElementById("username").textContent = username;
+            document.getElementById("progress-percentage").textContent = `${progressPercentage}%`;
+            document.getElementById("progress").style.width = `${progressPercentage}%`;
+            document.getElementById("progress").textContent = `${progressPercentage}%`;
+
+            if (modal.style.display === "block") {
+                modal.style.display = "none";
+                overlay.style.display = "none";
+            } else {
+                modal.style.display = "block";
+                overlay.style.display = "block";
+            }
+        }
+
+        // Handle logout
+        function logout() {
+            // Clear session data
+            sessionStorage.clear(); // Clear sessionStorage or localStorage if necessary
+
+            // Redirect to the login page
+            window.location.href = "login.html";
+        }
+
+        // Trigger file input when profile photo is clicked
+        function triggerFileInput() {
+            document.getElementById("upload-photo").click();
+        }
+
+        // Change Profile Photo
+        function changeProfilePhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("profile-photo").src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
+                // Store the photo in sessionStorage (optional for persistence across sessions)
+                sessionStorage.setItem("profilePhoto", e.target.result);
+            }
+        }
+
+        // Load saved profile photo (if any) from sessionStorage
+        window.onload = function() {
+            const savedPhoto = sessionStorage.getItem("profilePhoto");
+            if (savedPhoto) {
+                document.getElementById("profile-photo").src = savedPhoto;
+            }
+        };
+    </script>
 </body>
 </html>

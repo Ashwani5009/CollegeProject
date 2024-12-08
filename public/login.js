@@ -29,7 +29,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
 
             // Store the token securely (consider sessionStorage or cookies for sensitive data)
             sessionStorage.setItem('token', data.token);
-
+            sessionStorage.setItem('username',username);
             // Redirect to dashboard or another secure page
             window.location.href = "index.html";
         } else {
