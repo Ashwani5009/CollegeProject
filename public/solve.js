@@ -1,35 +1,43 @@
-// Handle dynamic problem loading and code submission
 document.addEventListener("DOMContentLoaded", async () => {
-    const problemId = sessionStorage.getItem('problemId'); // Extract problem ID from sessionStorage
+    const problemId = sessionStorage.getItem('problemId');
+    const token = sessionStorage.getItem('token');
+    
+    if (!token) {
+        alert("You are not logged in!");
+        window.location.href = "login.html";
+        return;
+    }
+
     const problemTitleElement = document.getElementById("problem-title");
     const problemDescriptionElement = document.getElementById("problem-description");
     const problemIOElement = document.getElementById("problem-input-output");
     const codeEditor = document.getElementById("code-editor");
     const submitButton = document.getElementById("submit-code-button");
-    const testResultsElement = document.getElementById("test-results");
 
-    // Initialize CodeMirror for code editor
+    // Initialize CodeMirror editor
     const editor = CodeMirror.fromTextArea(codeEditor, {
         lineNumbers: true,
         mode: "javascript",
-        theme: "default",
+        theme: "dracula",
     });
 
-    // Fetch problem details by ID
+    // Fetch problem details using problemId
     try {
-        const response = await fetch(`http://localhost:5000/api/problems/${problemId}`);
-        const problem = await response.json();
+        const response = await fetch(`https://collegeproject-fnkx.onrender.com/api/problems/${problemId}`);
+        if (response.ok) {
+            const problem = await response.json();
 
-        if (response.ok && problem) {
-            // Populate problem details dynamically
+            // Update the problem title, description, and input/output formats
             if (problemTitleElement) {
                 problemTitleElement.textContent = problem.title;
             }
+
             if (problemDescriptionElement) {
                 problemDescriptionElement.textContent = problem.description;
             }
+
             if (problemIOElement) {
-                problemIOElement.textContent = `Input: ${problem.input_format}\nOutput: ${problem.output_format}\nConstraints: ${problem.constraints}`;
+                problemIOElement.textContent = `Input: ${problem.input || 'N/A'}\nOutput: ${problem.output || 'N/A'}\nConstraints: ${problem.constraints || 'N/A'}`;
             }
         } else {
             console.error("Problem not found.");
@@ -39,79 +47,74 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Handle code submission
-    submitButton?.addEventListener("click", async () => {
-        const code = editor.getValue(); // Get code from the editor
+    if (submitButton) {
+        submitButton.addEventListener("click", async () => {
+            const code = editor.getValue();
 
-        if (!code) {
-            alert("Please write some code.");
-            return;
-        }
-
-        // Send code to the server for evaluation
-        try {
-            const response = await fetch("http://localhost:5000/api/submit", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    problemId: problemId,
-                    code: code,
-                }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                // Show test results
-                testResultsElement.innerHTML = result.testResults
-                    .map((test) => {
-                        return `<div>Test Case: ${test.testCase}<br>Result: ${test.result}</div>`;
-                    })
-                    .join('');
-            } else {
-                console.error("Error submitting code:", result.message);
+            if (!code) {
+                alert("Please write some code.");
+                return;
             }
-        } catch (error) {
-            console.error("Error submitting code:", error);
+
+            const language = document.getElementById("language").value;
+            const languageId = getLanguageId(language);
+
+            // Submit the code to the backend for evaluation
+            try {
+                const response = await fetch("https://collegeproject-fnkx.onrender.com/api/submissions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        problem: problemId,
+                        code: code,
+                        language_id: languageId,
+                        stdin: "",
+                    }),
+                });
+
+                const result = await response.json();
+                if (response.ok && result.submission) {
+                    const { status, output, execution_time, memory_usage } = result.submission;
+
+                    // Display the result of code submission
+                    document.getElementById("resultMessage").innerText = `Status: ${status}\nOutput: ${output}`;
+                    document.getElementById("executionResults").style.display = "block";
+                    // document.getElementById("status").innerText = status;
+                    // document.getElementById("output").innerText = output || "No Output";
+                    document.getElementById("execution-time").innerText = execution_time ? `${execution_time} sec` : "N/A";
+                    document.getElementById("memory-usage").innerText = memory_usage ? `${memory_usage} MB` : "N/A";
+                } else {
+                    console.error("Error submitting code:", result);
+                }
+            } catch (error) {
+                console.error("Error submitting code:", error);
+            }
+        });
+    }
+
+    // Function to map language selection to corresponding language ID
+    function getLanguageId(language) {
+        switch (language) {
+            case 'python':
+                return 71;  // Python
+            case 'java':
+                return 62;  // Java
+            case 'cpp':
+                return 54;  // C++
+            default:
+                return 71;  // Default to Python
         }
-    });
+    }
 });
 
-// Main logic for displaying the question data on page load
-window.onload = function () {
-    const problemId = sessionStorage.getItem('problemId'); // Get problem ID from sessionStorage
-
-    // Fetch question data dynamically from the server
-    fetch(`http://localhost:5000/api/problems/${problemId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data) {
-                // Set the question title
-                const questionNameElement = document.getElementById('questionName');
-                if (questionNameElement) {
-                    questionNameElement.innerText = data.title;
-                }
-
-                // Set the question link
-                const questionAnchor = document.getElementById('questionAnchor');
-                if (questionAnchor) {
-                    questionAnchor.href = data.link;
-                    questionAnchor.innerText = `View the full question: ${data.title}`;
-                }
-            } else {
-                console.error("Failed to load question data.");
-            }
-        })
-        .catch(error => console.error("Error loading question data:", error));
-};
-
-// Show hint for the selected problem
+// Function to show hint for the selected problem
 function showHint() {
-    const problemId = sessionStorage.getItem('problemId'); // Get problem ID from sessionStorage
+    const problemId = sessionStorage.getItem('problemId');
 
-    // Fetch hint for the problem
-    fetch(`http://localhost:5000/api/problems/${problemId}`)
+    fetch(`https://collegeproject-fnkx.onrender.com/api/problems/${problemId}`)
         .then(response => response.json())
         .then(data => {
             if (data && data.hint) {
@@ -125,19 +128,3 @@ function showHint() {
             alert("Failed to fetch hint.");
         });
 }
-
-// Handle code submission for dynamic problem data
-function submitCode() {
-    const language = document.getElementById('language').value;
-    const code = document.getElementById('code').value;
-
-    if (code.trim() === '') {
-        alert('Please enter some code before submitting.');
-        return;
-    }
-
-    // Mock success message (replace with actual API call)
-    document.getElementById('resultMessage').innerText =
-        'Code submitted successfully! Running test cases...';
-}
-

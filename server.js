@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require('axios');
 const mongoose = require("mongoose");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
@@ -8,11 +9,14 @@ const submissionRoutes = require("./routes/submissionRoutes");
 const problemRoutes = require("./routes/problemRoutes");
 const topicRoutes = require("./routes/topicRoutes");
 const path = require("path");
+const bcrypt = require("bcrypt");
 
 // Load environment variables
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "6cad35a0117a8205b2ca78772f6a20637f93343849a386e9bcd22ba3efcdcaeec16cd768fb00298d32f80158b83db44d356fd3d266a647628cf2f149d73ca418";
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/study-assistant";
+const MONGO_URI = process.env.MONGO_URI;
+const JUDGE0_API_KEY = process.env.JUDGE0_API_KEY;
+const JUDGE0_API_URL = "https://judge0-ce.p.rapidapi.com"
 
 const app = express();
 
@@ -36,7 +40,6 @@ app.post("/register", async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Username already taken" });
     }
-
     // Create a new user
     const newUser = new User({ username, password });
     await newUser.save();
@@ -58,7 +61,6 @@ app.post("/login", async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
-
     // Validate password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
@@ -78,14 +80,46 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post('/submit-code', async (req, res) => {
+    const { source_code, language_id, stdin } = req.body;
+
+    try {
+        // Prepare the payload for Judge0 API
+        const payload = {
+            source_code,        // Source code to run
+            language_id,        // The language id of the code
+            stdin: stdin || '', // Input for the code (optional)
+        };
+
+        // Send the POST request to Judge0 API
+        const response = await axios.post(
+            `${JUDGE0_API_URL}/submissions?base64_encoded=false&wait=true`,
+            payload,
+            {
+                headers: {
+                    'x-rapidapi-key': JUDGE0_API_KEY, // Your API key
+                    'x-rapidapi-host': 'judge0-ce.p.rapidapi.com', // API host
+                    'Content-Type': 'application/json', // Content type should be application/json
+                },
+            }
+        );
+
+        // Send the response from Judge0 back to the client
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error submitting code:', error);
+        res.status(500).json({ error: 'Failed to evaluate code.' });
+    }
+});
+
 // API Routes
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/problems", problemRoutes);
 app.use("/api/topics", topicRoutes);
-app.use(express.static(path.join(__dirname,"public")));
-// Serve the index.html file for the root route
+
+// Serve the sign_up.html file for the root route
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "sign_up.html"));
 });
 
 // Connect to MongoDB
@@ -99,3 +133,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
