@@ -186,3 +186,14 @@ ul li:hover {
     background-color: #adb5bd; /* Light gray scrollbar */
     border-radius: 10px;
 }
+.question-list-container h4:hover{
+font-size: 20px;
+transition: all 0.2s ease-in 0.1s ;
+text-decoration: underline;
+
+}
+.question-list-container h3:hover{
+   font-size: 20px;
+   transition: all 0.2s ease-in 0.1s ;
+    box-shadow:3px 4px 2px grey; 
+}
