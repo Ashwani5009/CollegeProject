@@ -1,0 +1,275 @@
+/* Editor Page Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light theme (default) */
+body.light {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Dark theme */
+body.dark {
+    background-color: #1a1a1a;
+    color: #f0f0f0;
+}
+
+.main-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+body.dark .main-container {
+    background-color: #2d2d2d;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Header Styles */
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+body.dark .header {
+    border-bottom-color: #404040;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+body.dark .header h1 {
+    color: #f0f0f0;
+}
+
+/* Question Details Section */
+.question-details {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+body.dark .question-details {
+    background-color: #363636;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.question-details h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+body.dark .question-details h2 {
+    color: #f0f0f0;
+}
+
+.question-details a {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.question-details a:hover {
+    color: #2980b9;
+}
+
+#problem-description {
+    margin: 1rem 0;
+    line-height: 1.6;
+    color: #555;
+}
+
+body.dark #problem-description {
+    color: #ddd;
+}
+
+#problem-input-output {
+    background-color: #f1f3f5;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: 'Consolas', monospace;
+    white-space: pre-wrap;
+    margin-top: 1rem;
+}
+
+body.dark #problem-input-output {
+    background-color: #404040;
+    color: #e0e0e0;
+}
+
+/* Form Container */
+.form-container {
+    margin-bottom: 2rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+body.dark label {
+    color: #f0f0f0;
+}
+
+select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #ffffff;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+body.dark select {
+    background-color: #363636;
+    border-color: #404040;
+    color: #f0f0f0;
+}
+
+select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* CodeMirror Editor Customization */
+.CodeMirror {
+    height: 400px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+button {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#submit-code-button {
+    background-color: #2ecc71;
+    color: white;
+}
+
+#submit-code-button:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+button[onclick="showHint()"] {
+    background-color: #3498db;
+    color: white;
+}
+
+button[onclick="showHint()"]:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+/* Result Container */
+.result-container {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+body.dark .result-container {
+    background-color: #363636;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.result-container h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+body.dark .result-container h2 {
+    color: #f0f0f0;
+}
+
+#resultMessage {
+    font-family: 'Consolas', monospace;
+    white-space: pre-wrap;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+body.dark #resultMessage {
+    color: #f0f0f0;
+}
+
+#executionResults {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+body.dark #executionResults {
+    border-top-color: #404040;
+}
+
+#executionResults p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+body.dark #executionResults p {
+    color: #bbb;
+}
+
+#executionResults strong {
+    color: #2c3e50;
+}
+
+body.dark #executionResults strong {
+    color: #f0f0f0;
+} 
