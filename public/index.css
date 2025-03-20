@@ -1,199 +1,346 @@
-/* Profile Popup Styles */
-.profile-popup {
-    display: none; /* Hidden by default */
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 300px;
-    height: 100%;
-    background-color: #f5f5f5; /* Light neutral background */
-    box-shadow: -4px 0px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    padding: 20px;
-    border-radius: 10px 0 0 10px;
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.profile-content {
+/* Light theme (default) */
+body.light {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Dark theme */
+body.dark {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+body.dark .hero {
+    background: linear-gradient(to right, #004c99, #4b0ba8);
+}
+
+body.dark .feature {
+    background: #1e1e1e;
+    color: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+body.dark .feature:hover {
+    box-shadow: 8px 11px 10px rgba(100, 100, 100, 0.3);
+}
+
+body.dark footer {
+    background: #1a1a1a;
+}
+
+body.dark .logo span {
+    color: #f0f0f0;
+}
+
+body.dark .example-2 .icon-content a {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+/* Theme toggle button styles are now in theme.css */
+
+.logo span{
+    color:black;
+    opacity: 1;
+    font-size:19px ;
+     font-weight:700;
+}
+.logo span:hover{
+    font-size: 25px;
+}
+
+.hero {
+    background: linear-gradient(to right, #007bff, #6610f2);
+    color: white;
     text-align: center;
+    padding: 100px 20px;
 }
 
-.profile-image {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    border: 2px solid #6c757d; /* Subtle border */
-}
-
-.profile h3 {
-    margin: 10px 0;
-    color: #333333; /* Neutral black */
-    font-size: 18px;
-}
-
-.profile button {
-    padding: 10px 20px;
-    background-color: #007bff; /* Blue for CTA */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.profile button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
-/* Navbar */
-.navbar {
-    background-color: #2f4858; /* Deep teal */
-    color: white;
-    padding: 15px;
+nav {
+    position: fixed;
+    top:0%;
+    left:0%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Navbar shadow */
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
-.navbar h2 {
-    margin: 0;
-    font-size: 24px;
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav ul li {
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+}
+
+.logo {
+  display: flex; /* Aligns image and text horizontally */
+  align-items: center; /* Centers items vertically */
+  gap: 10px; /* Adds space between the logo and text */
+}
+.logo img{
+  height: 40px;
+  width:auto;
+  
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
     font-weight: bold;
 }
 
-.navbar button {
-    padding: 10px 20px;
-    background-color: #007bff; /* Blue for Profile button */
+.cta-button {
+    background: #ff5722;
     color: white;
-    border: none;
+    padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 22px;
+    
+}
+.cta-button:hover{
+    box-shadow: 6px 6px 6px black;
 }
 
-.navbar button:hover {
-    background-color: #0056b3; /* Hover effect for button */
+.features, .how-it-works, .contact {
+    text-align: center;
+    padding: 60px 20px;
 }
 
-/* Main Container */
-.main-container {
+.feature-list {
     display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.feature {
+    background: white;
     padding: 20px;
-    background-color: #eef5f9; /* Soft background for the entire page */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    
+}
+.feature img{
+    height: 10rem;
+    width: 16rem;
+    border-radius: 8px;
+    
 }
 
-/* Left Section: Progress and Topic Input */
-.progress-container {
-    width: 60%;
+.feature #heading{
+    color:orange;
+}
+.feature:hover{
+    box-shadow: 8px 11px 10px grey ;
+}
+
+.steps {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.step {
+    background: #007bff;
+    color: white;
     padding: 20px;
-    background-color: #ffffff; /* Clean white for focus */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    margin-right: 20px;
+    border-radius: 10px;
+    font-weight: bold;
 }
 
-.progress-bar {
-    width: 100%;
-    background-color: #e9ecef; /* Light gray for inactive progress bar */
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.progress {
-    height: 30px;
-    background-color: #28a745; /* Green for progress */
+footer {
+    background: #333;
     color: white;
     text-align: center;
-    line-height: 30px;
-    border-radius: 8px;
-    font-weight: bold;
-}
-
-/* Form styles */
-label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-    color: #495057; /* Neutral dark text */
-}
-
-select,
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ced4da; /* Subtle border for inputs */
-    border-radius: 4px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    background-color: #ffffff;
-}
-
-button {
-    padding: 10px 15px;
-    background-color: #007bff; /* Consistent blue for buttons */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3; /* Darker blue hover */
-}
-
-/* Right Section: Questions List */
-.question-list-container {
-    width: 35%;
     padding: 20px;
-    background-color: #ffffff; /* Clean white for focus */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
-.question-list-container h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #333333; /* Neutral black */
-}
 
+
+/* social media links  */
+
+/* From Uiverse.io by wilsondesouza */ 
 ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
-    background-color: #f8f9fa; /* Very light gray for contrast */
-    margin: 5px 0;
-    padding: 10px;
+    list-style: none;
+  }
+  
+  .example-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .example-2 .icon-content {
+    margin: 0 10px;
+    position: relative;
+  }
+  .example-2 .icon-content .tooltip {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    padding: 6px 10px;
     border-radius: 5px;
-    transition: background-color 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  .example-2 .icon-content:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    top: -50px;
+  }
+  .example-2 .icon-content a {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: #4d4d4d;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+  }
+  .example-2 .icon-content a:hover {
+    box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
+  }
+  .example-2 .icon-content a svg {
+    position: relative;
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+  }
+  .example-2 .icon-content a:hover {
+    color: white;
+  }
+  .example-2 .icon-content a .filled {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: #000;
+    transition: all 0.3s ease-in-out;
+  }
+  .example-2 .icon-content a:hover .filled {
+    height: 100%;
+  }
+  
+  .example-2 .icon-content a[data-social="whatsapp"] .filled,
+  .example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip {
+    background-color: #128c7e;
+  }
+  
+  .example-2 .icon-content a[data-social="facebook"] .filled,
+  .example-2 .icon-content a[data-social="facebook"] ~ .tooltip {
+    background-color: #3b5998;
+  }
+  .example-2 .icon-content a[data-social="instagram"] .filled,
+  .example-2 .icon-content a[data-social="instagram"] ~ .tooltip {
+    background: linear-gradient(
+      45deg,
+      #405de6,
+      #5b51db,
+      #b33ab4,
+      #c135b4,
+      #e1306c,
+      #fd1f1f
+    );
+  }
+  .example-2 .icon-content a[data-social="youtube"] .filled,
+  .example-2 .icon-content a[data-social="youtube"] ~ .tooltip {
+    background-color: #ff0000;
+  }
+  
+body.dark .step {
+    background: #004c99;
 }
 
-ul li:hover {
-    background-color: #e9ecef; /* Slightly darker hover effect */
+body.dark nav {
+    background: rgba(0, 0, 0, 0.3);
 }
 
-/* Scrollbar Styling */
-.question-list-container {
-    overflow-y: auto;
-    max-height: 400px;
+body.dark a {
+    color: #5e9eff;
 }
 
-.question-list-container::-webkit-scrollbar {
-    width: 8px;
+body.dark nav ul li a {
+    color: #f0f0f0;
 }
 
-.question-list-container::-webkit-scrollbar-thumb {
-    background-color: #adb5bd; /* Light gray scrollbar */
-    border-radius: 10px;
+body.dark nav ul li .cta-button {
+    color: white;
 }
-.question-list-container h4:hover{
-font-size: 20px;
-transition: all 0.2s ease-in 0.1s ;
-text-decoration: underline;
 
+body.dark .contact {
+    background-color: #1a1a1a;
 }
-.question-list-container h3:hover{
-   font-size: 20px;
-   transition: all 0.2s ease-in 0.1s ;
-    box-shadow:3px 4px 2px grey; 
+
+body.dark .contact h2 {
+    color: #f0f0f0;
 }
+
+body.dark .contact a {
+    color: #5e9eff;
+}
+
+body.dark .example-2 .icon-content a .filled {
+    background-color: #333;
+}
+
+/* Make sure the tooltips are visible in dark mode */
+body.dark .example-2 .icon-content .tooltip {
+    background-color: #333;
+    color: #f0f0f0;
+}
+
+/* Override specific social media colors to ensure they're visible in dark mode */
+body.dark .example-2 .icon-content a[data-social="whatsapp"] .filled,
+body.dark .example-2 .icon-content a[data-social="whatsapp"] ~ .tooltip {
+    background-color: #128c7e;
+}
+
+body.dark .example-2 .icon-content a[data-social="facebook"] .filled,
+body.dark .example-2 .icon-content a[data-social="facebook"] ~ .tooltip {
+    background-color: #3b5998;
+}
+
+body.dark .example-2 .icon-content a[data-social="instagram"] .filled,
+body.dark .example-2 .icon-content a[data-social="instagram"] ~ .tooltip {
+    background: linear-gradient(
+        45deg,
+        #405de6,
+        #5b51db,
+        #b33ab4,
+        #c135b4,
+        #e1306c,
+        #fd1f1f
+    );
+}
+
+
+  

@@ -29,9 +29,9 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
 
             // Store the token securely (consider sessionStorage or cookies for sensitive data)
             sessionStorage.setItem('token', data.token);
-            sessionStorage.setItem('username',username);
-            // Redirect to dashboard or another secure page
-            window.location.href = "index.html";
+            sessionStorage.setItem('username', username);
+            // Redirect to dashboard after successful login
+            window.location.href = "dashboard.html";
         } else {
             // Login failed
             alert("Login failed: " + data.message);
