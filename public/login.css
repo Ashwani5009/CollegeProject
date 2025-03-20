@@ -1,79 +1,120 @@
 /* General Reset */
-html, body {
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body {
   font-family: Arial, sans-serif;
-  height: 100%;
-  background: #f4f4f4; /* Simple light gray background */
+  background-color: #f4f4f4;
+  color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Login Box Styles */
+/* Login Box Styles - Styled exactly like sign-up-container */
 .login-box {
-  width: 300px;
-  padding: 20px;
-  background:white; /* White background for the box */
-  border: 1px solid #ccc; /* Light border around the box */
-  border-radius: 5px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  transition: all 0.3s ease;
 }
 
 /* Title */
 .login-box h2 {
-  margin: 0 0 20px;
-  font-size: 24px;
-  color: #2255ee; /* Dark gray text */
+  font-size: 28px;
   text-align: center;
-  font-weight: normal;
+  margin-bottom: 25px;
+  color: #2255ee;
+  font-weight: bold;
 }
 
-/* Input Container */
-.user-box {
-  position: relative;
-  margin-bottom: 20px;
+/* Input Group */
+.input-group {
+  margin-bottom: 25px;
 }
 
-.user-box input {
-  width: 97%;
-  padding: 10px;
-  font-size: 14px;
-  color: #333; /* Text color */
-  border: 1px solid #ccc; /* Light border */
-  border-radius: 3px;
+.input-group label {
+  display: block;
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-weight: 400;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #2255ee;
+  box-shadow: 0 0 5px rgba(34, 85, 238, 0.3);
   outline: none;
-  background: #f9f9f9; /* Slightly off-white background for inputs */
 }
 
-.user-box label {
-  position: absolute;
-  top: -8px;
-  left: 10px;
-  font-size: 12px;
-  color: #666; /* Subtle label color */
-  background: #fff; /* Background to cover input border */
-  padding: 0 5px;
-  transform: translateY(0); /* Keep label at the top */
+.input-group input::placeholder {
+  color: #999;
 }
 
 /* Button Styles */
 .login-btn {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  color: #fff;
-  background: #163bab; /* background color of login button */
+  height: auto;
+  padding: 12px;
+  background-color: #2255ee;
+  color: white;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
 .login-btn:hover {
-  background: rgb(5, 130, 213); /* Slightly lighter blue on hover */
+  background-color: rgb(5, 130, 213);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .login-btn:focus {
   outline: none;
+}
+
+/* Signup Link */
+.login-box p {
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+  margin-top: 20px;
+}
+
+.signup-btn {
+  color: #2255ee;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.signup-btn:hover {
+  text-decoration: underline;
+  color: rgb(5, 130, 213);
 }
