@@ -1,0 +1,117 @@
+/* Add these styles at the end of the file */
+
+/* Result message styling */
+#resultMessage {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.success-result {
+    background-color: rgba(46, 204, 113, 0.1);
+    border-left: 4px solid #2ecc71;
+    color: #27ae60;
+}
+
+.error-result {
+    background-color: rgba(231, 76, 60, 0.1);
+    border-left: 4px solid #e74c3c;
+    color: #c0392b;
+}
+
+body.dark .success-result {
+    background-color: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+}
+
+body.dark .error-result {
+    background-color: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
+/* Progress notification styling */
+.progress-notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    font-weight: 500;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-width: 300px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.progress-notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.progress-notification::before {
+    content: '🎉';
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+@media (max-width: 768px) {
+    .progress-notification {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        max-width: unset;
+    }
+}
+
+/* Return to Dashboard button */
+.return-dashboard-btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    font-size: 1rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.return-dashboard-btn:hover {
+    background: linear-gradient(45deg, #2980b9, #2475ab);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(52, 152, 219, 0.4);
+}
+
+.return-dashboard-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+body.dark .return-dashboard-btn {
+    background: linear-gradient(45deg, #5e9eff, #3484db);
+    box-shadow: 0 4px 15px rgba(94, 158, 255, 0.3);
+}
+
+body.dark .return-dashboard-btn:hover {
+    background: linear-gradient(45deg, #3484db, #2a7ad0);
+    box-shadow: 0 6px 18px rgba(94, 158, 255, 0.4);
+} 

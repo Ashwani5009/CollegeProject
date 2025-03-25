@@ -32,12 +32,56 @@ function initTheme() {
                 body.classList.add('light');
                 localStorage.setItem('theme', 'light');
             }
+            
+            // Ensure the dashboard content remains visible after theme change
+            setTimeout(() => {
+                const mainContainer = document.querySelector('.main-container');
+                if (mainContainer) {
+                    mainContainer.style.display = 'flex';
+                    mainContainer.style.visibility = 'visible';
+                    
+                    const progressContainer = document.querySelector('.progress-container');
+                    const questionContainer = document.querySelector('.question-list-container');
+                    
+                    if (progressContainer) {
+                        progressContainer.style.display = 'block';
+                        progressContainer.style.visibility = 'visible';
+                    }
+                    
+                    if (questionContainer) {
+                        questionContainer.style.display = 'block';
+                        questionContainer.style.visibility = 'visible';
+                    }
+                }
+            }, 100);
         });
     } else {
         // If toggle not found in the DOM, create a fallback toggle
         // This ensures the theme functionality works even if the custom toggle isn't present
         createFallbackToggle(body, currentTheme);
     }
+    
+    // Ensure the dashboard content is visible on initial load
+    setTimeout(() => {
+        const mainContainer = document.querySelector('.main-container');
+        if (mainContainer) {
+            mainContainer.style.display = 'flex';
+            mainContainer.style.visibility = 'visible';
+            
+            const progressContainer = document.querySelector('.progress-container');
+            const questionContainer = document.querySelector('.question-list-container');
+            
+            if (progressContainer) {
+                progressContainer.style.display = 'block';
+                progressContainer.style.visibility = 'visible';
+            }
+            
+            if (questionContainer) {
+                questionContainer.style.display = 'block';
+                questionContainer.style.visibility = 'visible';
+            }
+        }
+    }, 100);
 }
 
 // Creates a fallback toggle if the custom toggle isn't found
