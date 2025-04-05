@@ -12,6 +12,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         themeToggleInput.checked = savedTheme === 'dark';
     }
     
+    // Remove any existing floating return buttons
+    const existingFloatingBtn = document.getElementById('floating-return-btn');
+    if (existingFloatingBtn) {
+        existingFloatingBtn.remove();
+    }
+    
+    // Remove any fixed return buttons in the navbar
+    const existingFixedBtn = document.getElementById('fixed-return-btn');
+    if (existingFixedBtn) {
+        existingFixedBtn.remove();
+    }
+    
+    // Add return to dashboard button in the results area
+    addReturnToDashboardButton();
+    
     if (!token) {
         alert("You are not logged in!");
         window.location.href = "login.html";
@@ -110,7 +125,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             } catch (error) {
                 console.error("Error submitting code:", error);
-                document.getElementById("resultMessage").innerText = "Error: Could not connect to the server. Please try again.";
+                // document.getElementById("resultMessage").innerText = "Error: Could not connect to the server. Please try again.";
+                document.getElementById("resultMessage").classList.add("error-result");
             } finally {
                 // Reset button state
                 submitButton.disabled = false;
@@ -134,6 +150,92 @@ function updateProgress(problemId) {
     if (!completedQuestions.includes(problemId)) {
         completedQuestions.push(problemId);
         sessionStorage.setItem("completedQuestions", JSON.stringify(completedQuestions));
+        sessionStorage.setItem("newlyCompletedQuestion", "true");
+        showSuccessNotification("Progress updated! You've completed a new question.");
+        addReturnToDashboardButton();
+    }
+}
+
+// Function to show a success notification
+function showSuccessNotification(message) {
+    // Create notification element if it doesn't exist
+    let notification = document.getElementById('progress-notification');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.id = 'progress-notification';
+        notification.className = 'progress-notification';
+        document.body.appendChild(notification);
+    }
+    
+    // Set notification message and show it
+    notification.textContent = message;
+    notification.classList.add('show');
+    
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
+
+// Function to add a return to dashboard button
+function addReturnToDashboardButton() {
+    const resultSection = document.querySelector('.result-section') || document.getElementById('executionResults');
+    
+    if (resultSection) {
+        // Check if the result heading exists
+        let resultHeading = document.querySelector('.result-heading') || document.querySelector('h2');
+        
+        // If heading doesn't exist, try to find any other elements to insert before
+        if (!resultHeading) {
+            // Insert at the beginning of the result section
+            if (!document.getElementById('return-dashboard-btn')) {
+                const returnButton = document.createElement('button');
+                returnButton.id = 'return-dashboard-btn';
+                returnButton.className = 'return-dashboard-btn';
+                returnButton.innerHTML = '<i class="fas fa-arrow-left"></i> Return to Dashboard';
+                returnButton.onclick = () => {
+                    window.location.href = 'dashboard.html';
+                };
+                
+                // Insert at the top of the result section
+                resultSection.insertBefore(returnButton, resultSection.firstChild);
+            }
+        } else {
+            // Insert after the heading
+            if (!document.getElementById('return-dashboard-btn')) {
+                const returnButton = document.createElement('button');
+                returnButton.id = 'return-dashboard-btn';
+                returnButton.className = 'return-dashboard-btn';
+                returnButton.innerHTML = '<i class="fas fa-arrow-left"></i> Return to Dashboard';
+                returnButton.onclick = () => {
+                    window.location.href = 'dashboard.html';
+                };
+                
+                resultHeading.parentNode.insertBefore(returnButton, resultHeading.nextSibling);
+            }
+        }
+    } else {
+        // If no result section, create the button and add it near the top
+        const submitButton = document.getElementById('submitButton');
+        const hintButton = document.getElementById('hintButton');
+        
+        if (submitButton || hintButton) {
+            // Find the parent of the buttons
+            const parent = (submitButton || hintButton).parentNode;
+            
+            if (!document.getElementById('return-dashboard-btn')) {
+                const returnButton = document.createElement('button');
+                returnButton.id = 'return-dashboard-btn';
+                returnButton.className = 'return-dashboard-btn top-position';
+                returnButton.innerHTML = '<i class="fas fa-arrow-left"></i> Return to Dashboard';
+                returnButton.onclick = () => {
+                    window.location.href = 'dashboard.html';
+                };
+                
+                // Insert before the submit/hint buttons
+                parent.insertBefore(returnButton, parent.firstChild);
+            }
+        }
     }
 }
 
