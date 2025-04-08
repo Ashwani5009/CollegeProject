@@ -33,6 +33,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    // Load progress from database
+    await loadProgressFromDatabase();
+
+    // Update progress bar with loaded data
+    const completedQuestions = JSON.parse(sessionStorage.getItem('completedQuestions') || '[]');
+    if (completedQuestions.length > 0) {
+        updateProgressBar();
+    }
+
     const problemTitleElement = document.getElementById("problem-title");
     const problemDescriptionElement = document.getElementById("problem-description");
     const problemIOElement = document.getElementById("problem-input-output");
@@ -145,14 +154,135 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
+// Add the updateProgressBar function
+function updateProgressBar() {
+    try {
+        const completedQuestions = JSON.parse(sessionStorage.getItem('completedQuestions') || '[]');
+        const totalQuestions = 10; // Update this with your actual total number of questions
+        
+        // Calculate progress percentage
+        const progressPercentage = (completedQuestions.length / totalQuestions) * 100;
+        
+        // Update progress bar width
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) {
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+        
+        // Update progress text
+        const progressText = document.querySelector('.progress-text');
+        if (progressText) {
+            progressText.textContent = `${completedQuestions.length}/${totalQuestions} completed`;
+        }
+    } catch (error) {
+        console.error('Error updating progress bar:', error);
+    }
+}
+
+
+async function saveProgressToDatabase(problemId) {
+    try {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            console.error('No token found');
+            return;
+        }
+
+        const response = await fetch('https://collegeproject-fnkx.onrender.com/api/progress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                problemId: problemId,
+                completed: true
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save progress');
+        }
+
+        const data = await response.json();
+        console.log('Progress saved:', data);
+
+        // Update local storage after successful save
+        const completedQuestions = JSON.parse(sessionStorage.getItem('completedQuestions') || '[]');
+        if (!completedQuestions.includes(problemId)) {
+            completedQuestions.push(problemId);
+            sessionStorage.setItem('completedQuestions', JSON.stringify(completedQuestions));
+            
+            // Update progress bar
+            updateProgressBar();
+            
+            // Show success notification
+            showSuccessNotification("Progress updated! You've completed a new question.");
+            
+            // Add return to dashboard button
+            addReturnToDashboardButton();
+        }
+    } catch (error) {
+        console.error('Error saving progress:', error);
+    }
+}
+
+async function loadProgressFromDatabase() {
+    try {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            console.error('No token found');
+            return;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/api/progress`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to load progress');
+        }
+
+        const data = await response.json();
+        if (data.completedQuestions && data.completedQuestions.length > 0) {
+            // Update session storage with loaded progress
+            sessionStorage.setItem('completedQuestions', JSON.stringify(data.completedQuestions));
+            console.log('Progress loaded:', data.completedQuestions);
+            
+            // Update progress bar
+            updateProgressBar();
+        }
+    } catch (error) {
+        console.error('Error loading progress:', error);
+    }
+}
+
+// Update the updateProgress function
 function updateProgress(problemId) {
-    let completedQuestions = JSON.parse(sessionStorage.getItem("completedQuestions") || "[]");
-    if (!completedQuestions.includes(problemId)) {
-        completedQuestions.push(problemId);
-        sessionStorage.setItem("completedQuestions", JSON.stringify(completedQuestions));
-        sessionStorage.setItem("newlyCompletedQuestion", "true");
-        showSuccessNotification("Progress updated! You've completed a new question.");
-        addReturnToDashboardButton();
+    try {
+        const completedQuestions = JSON.parse(sessionStorage.getItem('completedQuestions') || '[]');
+        
+        if (!completedQuestions.includes(problemId)) {
+            completedQuestions.push(problemId);
+            sessionStorage.setItem('completedQuestions', JSON.stringify(completedQuestions));
+            
+            // Save to database
+            saveProgressToDatabase(problemId);
+            
+            // Update progress bar
+            updateProgressBar();
+            
+            // Show success notification
+            showSuccessNotification("Progress updated! You've completed a new question.");
+            
+            // Add return to dashboard button
+            addReturnToDashboardButton();
+        }
+    } catch (error) {
+        console.error('Error updating progress:', error);
     }
 }
 

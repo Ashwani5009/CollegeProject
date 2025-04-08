@@ -117,6 +117,33 @@ function changeProfilePhoto(event) {
     }
 })();
 
+// Function to load progress from the database
+async function loadProgressFromDatabase() {
+    const token = sessionStorage.getItem('token');
+    if (!token) return;
+
+    try {
+        
+        const response = await fetch('https://collegeproject-fnkx.onrender.com/api/progress', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.completedQuestions) {
+                // Update session storage with the loaded progress
+                sessionStorage.setItem('completedQuestions', JSON.stringify(data.completedQuestions));
+                // Update the progress bar
+                updateProgressBar();
+            }
+        }
+    } catch (error) {
+        console.error('Error loading progress:', error);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     const topicSelect = document.getElementById("topic-select");
     const problemSelect = document.getElementById("question-select");
@@ -130,6 +157,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Clear the flag so notification doesn't show again on refresh
         sessionStorage.removeItem("newlyCompletedQuestion");
     }
+    
+    // Load progress from database
+    await loadProgressFromDatabase();
     
     // Load saved profile photo (if any) from sessionStorage
     const savedPhoto = sessionStorage.getItem("profilePhoto");
