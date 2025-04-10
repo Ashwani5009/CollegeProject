@@ -38,22 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const problemIOElement = document.getElementById("problem-input-output");
     const codeEditor = document.getElementById("code-editor");
     const submitButton = document.getElementById("submit-code-button");
-    // Render examples
-    const exampleSection = document.getElementById("problem-examples");
-    if (exampleSection && problem.examples && problem.examples.length > 0) {
-        exampleSection.innerHTML = "<strong>Examples:</strong><br><br>";
-        problem.examples.forEach((ex, idx) => {
-            exampleSection.innerHTML += `
-                <div class="example-block">
-                    <strong>Example ${idx + 1}:</strong><br>
-                    <pre><code>Input: ${ex.input}
-    Output: ${ex.output}</code></pre>
-                    <br>
-                </div>
-            `;
-        });
-    }
-
+    
 
     // Initialize CodeMirror editor
     const editor = CodeMirror.fromTextArea(codeEditor, {
@@ -67,6 +52,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         const response = await fetch(`https://collegeproject-fnkx.onrender.com/api/problems/${problemId}`);
         if (response.ok) {
             const problem = await response.json();
+            // Render examples
+            const exampleSection = document.getElementById("problem-examples");
+            if (exampleSection && problem.examples && problem.examples.length > 0) {
+                exampleSection.innerHTML = "<strong>Examples:</strong><br><br>";
+                problem.examples.forEach((ex, idx) => {
+                    exampleSection.innerHTML += `
+                        <div class="example-block">
+                            <strong>Example ${idx + 1}:</strong><br>
+                            <pre><code>Input: ${ex.input}
+            Output: ${ex.output}</code></pre>
+                            <br>
+                        </div>
+                    `;
+                });
+            }
+
 
             // Update the problem title, description, and input/output formats
             if (problemTitleElement) {
