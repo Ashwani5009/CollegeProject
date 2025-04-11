@@ -20,9 +20,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         const examples = data.examples || [];
         const examplesContainer = document.getElementById("problem-examples");
         examplesContainer.innerHTML = examples.map(example =>
-            `<div><strong>Input:</strong> <pre>${example.input}</pre><strong>Output:</strong> <pre>${example.output}</pre></div>`
+            `<div>
+                <strong>Input:</strong> <pre>${escapeHtml(example.input)}</pre>
+                <strong>Output:</strong> <pre>${escapeHtml(example.output)}</pre>
+            </div>`
         ).join("");
-        document.getElementById("problem-full-content").innerHTML = data.extraDetailsHtml || "";
+        
+        const extraDetailsElement = document.getElementById("problem-full-content");
+        if (data.extraDetailsHtml) {
+            extraDetailsElement.innerHTML = data.extraDetailsHtml;
+        } else {
+            extraDetailsElement.style.display = "none";
+        }
+
 
 
 
@@ -31,3 +41,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("problem-title").textContent = "Failed to load question.";
     }
 });
+function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+}
