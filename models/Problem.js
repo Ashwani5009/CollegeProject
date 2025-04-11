@@ -6,6 +6,7 @@ const problemSchema = new mongoose.Schema({
     input: { type: String, required: true },
     output: { type: String, required: true },
     constraints: { type: String, required: false },
+    extraDetailsHtml : { type: String, default: ""},
     examples: [{ input: String, output: String }],
     topic: { type: mongoose.Schema.Types.ObjectId, ref: 'Topic', required: true },
 });

@@ -64,5 +64,31 @@ router.get("/:id", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+// Update the extraDetailsHtml field of a problem
+router.put("/:id/extra-details", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { extraDetailsHtml } = req.body;
+
+        if (!extraDetailsHtml) {
+            return res.status(400).json({ message: "extraDetailsHtml is required" });
+        }
+
+        const updatedProblem = await Problem.findByIdAndUpdate(
+            id,
+            { extraDetailsHtml },
+            { new: true }
+        );
+
+        if (!updatedProblem) {
+            return res.status(404).json({ message: "Problem not found" });
+        }
+
+        res.json({ message: "Problem updated", problem: updatedProblem });
+    } catch (error) {
+        console.error("Error updating problem:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
 
 module.exports = router;

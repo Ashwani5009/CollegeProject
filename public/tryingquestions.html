@@ -1,0 +1,150 @@
+<style>
+    .question-section {
+      font-family: 'Segoe UI', sans-serif;
+      line-height: 1.7;
+      color: #2d2d2d;
+      padding: 1rem;
+    }
+  
+    .question-section h2 {
+      font-size: 1.3rem;
+      margin: 1.2rem 0 0.6rem;
+      color: #1a73e8;
+    }
+  
+    .question-section p {
+      margin: 0.5rem 0;
+    }
+  
+    .question-section pre {
+      background: #f5f5f5;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 8px;
+      margin: 1rem 0;
+      font-family: 'Courier New', monospace;
+    }
+  
+    .question-section ul {
+      padding-left: 1.2rem;
+      margin-top: 0.5rem;
+    }
+  
+    .question-section img {
+      display: block;
+      margin: 1.2rem auto;
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+  
+    .question-section a {
+      color: #1a73e8;
+      text-decoration: underline;
+    }
+  
+    .question-section code {
+      background: #f0f0f0;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+  
+    .question-section iframe {
+      width: 100%;
+      max-width: 810px;
+      height: 456px;
+      margin: 1.5rem auto;
+      display: block;
+      border-radius: 12px;
+    }
+  </style>
+  
+  <div class="question-section">
+    <h2>Implement Stack using Single Queue</h2>
+  
+    <p><strong>Problem Statement:</strong> Implement a <strong>Stack</strong> using a single <strong>Queue</strong>.</p>
+    <p><strong>Note:</strong> Stack follows Last In First Out (LIFO) rule. Queue follows First In First Out (FIFO) rule.</p>
+  
+    <p><strong>Example:</strong></p>
+    <img src="https://lh6.googleusercontent.com/PTWddK6HFOLjdbqarLVQBneesOOO-OGmJrOEZPyORsvCYkGOraWdM3j1MjGTa9Nm23iKBJOVS_GO4bVJeEC66MNv6s-DbQ2e7i-w56eW0tVo2pQimeGFBcYNM9ojNcy5pRAxY-BX" alt="stack queue example" />
+  
+    <pre>
+  Explanation:
+  push(): Insert the element in the stack.
+  pop(): Remove and return the topmost element of the stack.
+  top(): Return the topmost element of the stack
+  size(): Return the size of the stack
+    </pre>
+  
+    <h2>Intuition</h2>
+    <p>Stack returns the most recently inserted element. Queue returns the earliest inserted element.</p>
+    <p>To simulate a stack using a queue, we rearrange the queue on every insert so that the last inserted element always comes first.</p>
+  
+    <h2>Approach</h2>
+    <ul>
+      <li>Take a single queue.</li>
+      <li><code>push(x)</code>: Add element to queue. Then rotate all previous elements behind the new one.</li>
+      <li><code>pop()</code>: Simply dequeue from the front.</li>
+      <li><code>top()</code>: Peek the front element.</li>
+      <li><code>size()</code>: Return queue size.</li>
+    </ul>
+  
+    <p>Repeat step 2 on every insertion to maintain LIFO behavior.</p>
+    <img src="https://lh5.googleusercontent.com/bHa6y4rgjYtKhet0ITJMOq4RghUuSmM2FgthDT7h0ue2yeEGuePiQiweOb3kuzJ41WoXDCUZfbV7-AwTHHXG3xyL4ZtkGlzZhcTAdG2lRVmgFN2WFmIVPl7VVYEBjI7FN1gricKz" alt="visual explanation" />
+  
+    <h2>Code (C++)</h2>
+    <pre><code>#include&lt;bits/stdc++.h&gt;
+  using namespace std;
+  class Stack {
+   queue&lt;int&gt; q;
+  public:
+   void Push(int x) {
+     int s = q.size();
+     q.push(x);
+     for (int i = 0; i &lt; s; i++) {
+       q.push(q.front());
+       q.pop();
+     }
+   }
+   int Pop() {
+     int n = q.front();
+     q.pop();
+     return n;
+   }
+   int Top() {
+     return q.front();
+   }
+   int Size() {
+     return q.size();
+   }
+  };
+  int main() {
+   Stack s;
+   s.Push(3);
+   s.Push(2);
+   s.Push(4);
+   s.Push(1);
+   cout &lt;&lt; "Top: " &lt;&lt; s.Top() &lt;&lt; endl;
+   cout &lt;&lt; "Size before: " &lt;&lt; s.Size() &lt;&lt; endl;
+   cout &lt;&lt; "Popped: " &lt;&lt; s.Pop() &lt;&lt; endl;
+   cout &lt;&lt; "Top after: " &lt;&lt; s.Top() &lt;&lt; endl;
+   cout &lt;&lt; "Size after: " &lt;&lt; s.Size();
+  }</code></pre>
+  
+    <h2>Output:</h2>
+    <p>
+      Top: 1<br />
+      Size before: 4<br />
+      Popped: 1<br />
+      Top after: 4<br />
+      Size after: 3
+    </p>
+  
+    <p><strong>Time Complexity:</strong> O(N)</p>
+    <p><strong>Space Complexity:</strong> O(N)</p>
+  
+    <h2>Video Explanation</h2>
+    <iframe src="https://www.youtube.com/embed/jDZQKzEtbYQ" frameborder="0" allowfullscreen></iframe>
+  </div>
+  

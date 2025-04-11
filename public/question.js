@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         examplesContainer.innerHTML = examples.map(example =>
             `<div><strong>Input:</strong> <pre>${example.input}</pre><strong>Output:</strong> <pre>${example.output}</pre></div>`
         ).join("");
+        document.getElementById("problem-full-content").innerHTML = data.extraDetailsHtml || "";
+
+
 
     } catch (error) {
         console.error("Error fetching problem details:", error);
