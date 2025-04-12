@@ -60,8 +60,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     exampleSection.innerHTML += `
                         <div class="example-block">
                             <strong>Example ${idx + 1}:</strong><br>
-                            <pre><code>Input: ${ex.input}
-            Output: ${ex.output}</code></pre>
+                            <pre><code>Input: ${ex.input}<br>Output: ${ex.output}
+                            </code></pre>
                             <br>
                         </div>
                     `;
