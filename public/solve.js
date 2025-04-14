@@ -106,7 +106,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
 
                 const result = await response.json();
-                if (response.ok && result.submission) {
+                console.log("Backend result:", result);
+                if (result.submission) {
                     const { status, output, execution_time, memory_usage } = result.submission;
 
                     // Display the result of code submission
@@ -125,7 +126,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             } catch (error) {
                 console.error("Error submitting code:", error);
-                // document.getElementById("resultMessage").innerText = "Error: Could not connect to the server. Please try again.";
+                document.getElementById("resultMessage").innerText =
+                "Error: Could not connect to the server.\n" + error.message;
                 document.getElementById("resultMessage").classList.add("error-result");
             } finally {
                 // Reset button state
