@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
     const testResults = [];
     let allPassed = true;
 
+    let executionTime, executionMemory;
     for (let index = 0; index < problemDoc.testCases.length; index++) {
       const testCase = problemDoc.testCases[index];
       console.log(`\n--- Test Case ${index + 1} ---`);
@@ -60,8 +61,11 @@ router.post('/', async (req, res) => {
       );
 
       const { stdout, stderr, time, memory, status } = judge0Response.data;
+      executionTime = time;
+      executionMemory = memory;
       const actualOutput = (stdout || stderr || "").trim();
       const expectedOutput = (testCase.output || "").trim();
+      const execTime = time;
       const passed = actualOutput === expectedOutput;
 
       console.log("Actual Output:", actualOutput);
@@ -75,27 +79,38 @@ router.post('/', async (req, res) => {
         expectedOutput,
         actualOutput,
         passed,
+        time,
+        memory,
       });
 
-      // Optional: break on first failure to save API usage
-      // if (!passed) break;
+      if (!passed) break;
     }
-
+    
+    console.log("Time:",executionTime);
     submission.status = allPassed ? "Accepted" : "Wrong Answer";
     submission.output = JSON.stringify(testResults, null, 2);
-    submission.execution_time = "N/A";
-    submission.memory_usage = "N/A";
+    submission.execution_time = executionTime || "Null";
+    submission.memory_usage = executionMemory / 1024 || "Null";
     submission.testResults = testResults;
+    console.log("submissionTIme:",submission.execution_time);
 
     await submission.save();
 
     // Flattened response
     res.status(201).json({
-      status: submission.status,
-      output: submission.output,
-      execution_time: submission.execution_time,
-      memory_usage: submission.memory_usage,
-      testResults: submission.testResults,
+      message: "Submission created and evaluated successfully",
+      submission: {
+        user: submission.user,
+        problem: submission.problem,
+        code: submission.code,
+        language_id: submission.language_id,
+        stdin: submission.stdin,
+        status: submission.status,
+        output: submission.output,
+        execution_time: submission.execution_time,
+        memory_usage: submission.memory_usage,
+        testResults: submission.testResults,
+      },
     });
 
   } catch (error) {
