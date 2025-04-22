@@ -1,6 +1,3 @@
-// API base URL for render.com deployment
-const API_BASE_URL = 'https://collegeproject-fnkx.onrender.com';
-
 document.addEventListener("DOMContentLoaded", async () => {
   const problemId = sessionStorage.getItem('problemId');
   const token = sessionStorage.getItem('token');
@@ -60,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Fetch problem details using problemId
   try {
-    const response = await fetch(`${API_BASE_URL}/api/problems/${problemId}`);
+    const response = await fetch(`https://collegeproject-fnkx.onrender.com/api/problems/${problemId}`);
     if (response.ok) {
       const problem = await response.json();
 
@@ -103,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Submit the code to the backend for evaluation
       try {
-        const response = await fetch(`${API_BASE_URL}/api/submissions`, {
+        const response = await fetch("https://collegeproject-fnkx.onrender.com/api/submissions", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -120,9 +117,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const result = await response.json();
         console.log("Submission result:", result); // Add this line to debug
 
-        if (response.ok) {
+        if (response.ok && result.submission) {
           // Extract data from the response - backend returns flattened data now (not wrapped in submission object)
-          const { status, output, execution_time, memory_usage, testResults } = result;
+          const { status, output, execution_time, memory_usage, testResults } = result.submission;
           console.log()
           console.log("time", execution_time);
           // Create a formatted result message that shows test case results
@@ -150,9 +147,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           resultMessageElement.classList.remove("error-result");
           resultMessageElement.classList.add("success-result");
 
-          // document.getElementById("executionResults").style.display = "block";
-          // document.getElementById("execution-time").innerText = execution_time ? `${execution_time} sec` : "N/A";
-          // document.getElementById("memory-usage").innerText = memory_usage ? `${memory_usage} MB` : "N/A";
+          document.getElementById("executionResults").style.display = "block";
+          document.getElementById("execution-time").innerText = execution_time ? `${execution_time} sec` : "N/A";
+          document.getElementById("memory-usage").innerText = memory_usage ? `${memory_usage} MB` : "N/A";
 
           // Update progress if submission was successful
           if (status === "Accepted" || status === "Success" || status.toLowerCase().includes("success")) {
