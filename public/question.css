@@ -2,7 +2,7 @@
     max-width: 800px;
     margin: 2rem auto;
     padding: 2rem;
-    background: #ffffff;
+    background: var(--container-bg);
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     font-family: 'Segoe UI', sans-serif;
@@ -11,7 +11,7 @@
 h2 {
     font-size: 1.8rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: var(--heading-color); 
 }
 
 #problem-description,
@@ -20,7 +20,7 @@ h2 {
     margin: 1rem 0;
     line-height: 1.6;
     font-size: 1rem;
-    color: #444;
+    background: var(--container-bg);
 }
 
 pre {

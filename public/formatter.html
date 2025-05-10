@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TUF HTML Formatter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      margin: 0;
+      padding: 2rem;
+    }
+    textarea, iframe {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    textarea {
+      height: 200px;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      font-family: monospace;
+    }
+    iframe {
+      border: 1px solid #ccc;
+      height: 600px;
+    }
+    button {
+      display: block;
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>TUF HTML Formatter</h1>
+  <textarea id="input" placeholder="Paste raw TUF HTML here..."></textarea>
+  
+
+  <script>
+    function formatHTML() {
+      const input = document.getElementById('input').value;
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(input, 'text/html');
+
+      // Remove "Practice: Solve Problem" and anchor links block
+      // doc.querySelectorAll('div').forEach(div => {
+      //   if (div.textContent.includes('Practice:')) div.remove();
+      //   const links = div.querySelectorAll('a');
+      //   if (links.length && [...links].every(a => a.textContent.toLowerCase().includes('approach'))) div.remove();
+      // });
+
+      // Remove blockquotes
+      doc.querySelectorAll('blockquote').forEach(bq => bq.remove());
+
+      // Apply style to all <pre> tags, including existing ones
+      doc.querySelectorAll('pre').forEach(pre => {
+        pre.setAttribute('style', 'background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;');
+      });
+
+
+      // Fix code blocks with tabindex="0" and wrap in styled <pre><code>
+      doc.querySelectorAll('[tabindex="0"]').forEach(el => {
+      if (!el.matches('pre, code')) {
+      const codeText = el.textContent.trim();
+      const pre = document.createElement('pre');
+      pre.setAttribute('style', 'background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;');
+
+      const code = document.createElement('code');
+      code.textContent = codeText;
+
+      pre.appendChild(code);
+      el.replaceWith(pre);
+      }
+      });
+
+
+      // Add language label above code blocks
+      doc.querySelectorAll('pre').forEach(pre => {
+        const label = document.createElement('div');
+        label.innerHTML = '<strong>Code:</strong>';
+        pre.parentNode.insertBefore(label, pre);
+      });
+
+      // Style outputs as code blocks
+      const outputMarkers = ['Expected Output:', 'Output:'];
+      doc.querySelectorAll('p, div').forEach(el => {
+        if (outputMarkers.some(m => el.textContent.trim().startsWith(m))) {
+          const pre = document.createElement('pre');
+          pre.setAttribute('style', 'background:#eee; padding:1rem; border-radius:5px; overflow:auto');
+          const code = document.createElement('code');
+          code.textContent = el.textContent;
+          pre.appendChild(code);
+          el.replaceWith(pre);
+        }
+      });
+
+      // doc.querySelectorAll('div').forEach(div => {
+      // const isLangButtons = Array.from(div.querySelectorAll('button')).every(btn =>
+      //   ['cpp', 'java', 'python', 'javascript'].includes(btn.getAttribute('data-lang'))
+      // );
+      // if (isLangButtons && div.querySelectorAll('button').length >= 2) {
+      //   div.remove();
+      // }
+      // });
+
+
+      // Wrap in container
+      const container = document.createElement('div');
+      container.setAttribute('style', 'max-width: 900px; margin: auto; padding: 24px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); font-family: \'Segoe UI\', Tahoma, Geneva, Verdana, sans-serif; color: #333;');
+      while (doc.body.firstChild) {
+        container.appendChild(doc.body.firstChild);
+      }
+      doc.body.appendChild(container);
+
+      // ✅ This line was broken before — now fixed with a proper closing backtick
+      const output = document.getElementById('output');
+      console.log(doc.body.innerHTML);
+      output.srcdoc = `<!DOCTYPE html><html><head><meta charset='utf-8'><title>Preview</title></head><body>${doc.body.innerHTML}</body></html>`;
+      
+      // Output raw formatted HTML to textarea
+      document.getElementById('htmlOutput').value = container.outerHTML;
+
+    }
+  </script>
+  <button onclick="formatHTML()">Format HTML</button>
+  <iframe id="output"></iframe>
+  <h3>Formatted HTML Output:</h3>
+  <textarea id="htmlOutput" readonly></textarea>
+
+</body>
+</html>

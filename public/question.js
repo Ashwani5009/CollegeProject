@@ -1,5 +1,22 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const problemId = sessionStorage.getItem("problemId");
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.add(savedTheme);
+
+    const themeToggleInput = document.getElementById('input');
+    if (themeToggleInput) {
+        themeToggleInput.checked = savedTheme === 'dark';
+
+        themeToggleInput.addEventListener('change', () => {
+            const newTheme = themeToggleInput.checked ? 'dark' : 'light';
+            document.body.classList.remove('dark', 'light');
+            document.body.classList.add(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    }
+    if (themeToggleInput) {
+        themeToggleInput.checked = savedTheme === 'dark';
+    }
     if (!problemId) {
         document.getElementById("problem-title").textContent = "Problem ID not found.";
         return;
