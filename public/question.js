@@ -44,6 +44,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         ).join("");
         
         const extraDetailsElement = document.getElementById("problem-full-content");
+        if (typeof applyThemeToExtraDetails === 'function') {
+            applyThemeToExtraDetails();
+        }
+        
+
         if (data.extraDetailsHtml) {
             extraDetailsElement.innerHTML = data.extraDetailsHtml;
         } else {
@@ -63,3 +68,4 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+

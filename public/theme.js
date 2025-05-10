@@ -32,6 +32,8 @@ function initTheme() {
                 document.documentElement.style.setProperty('--container-bg', '#1e1e1e');
                 document.documentElement.style.setProperty('--heading-color', '#f0f0f0');
                 localStorage.setItem('theme', 'dark');
+                applyThemeToExtraDetails();
+
             } else {
                 // Switch to light theme
                 body.classList.remove('dark');
@@ -39,6 +41,8 @@ function initTheme() {
                 document.documentElement.style.setProperty('--container-bg', '#ffffff');
                 document.documentElement.style.setProperty('--heading-color', '#333');
                 localStorage.setItem('theme', 'light');
+                applyThemeToExtraDetails();
+
             }
 
             // Ensure the dashboard content remains visible after theme change
@@ -141,6 +145,24 @@ function updateFallbackButton(themeToggle, theme) {
         themeToggle.querySelector('.fa-moon').style.display = 'inline-block';
     }
 }
+
+// Applies theme-specific styles to code blocks in extraDetailsHtml
+function applyThemeToExtraDetails() {
+    const isDark = document.body.classList.contains('dark');
+    const preTags = document.querySelectorAll('#problem-full-content pre');
+    const codeTags = document.querySelectorAll('#problem-full-content code');
+
+    preTags.forEach(pre => {
+        pre.style.backgroundColor = isDark ? '#2d2d2d' : '#f4f4f4';
+        pre.style.color = isDark ? '#f8f8f2' : '#333';
+    });
+
+    codeTags.forEach(code => {
+        code.style.backgroundColor = isDark ? '#2d2d2d' : '#f4f4f4';
+        code.style.color = isDark ? '#f8f8f2' : '#333';
+    });
+}
+
 
 // Initialize theme when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initTheme);
