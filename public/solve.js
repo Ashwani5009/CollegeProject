@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadProgressFromDatabase();
 
   // Update progress bar with loaded data
-  const completedQuestions = JSON.parse(sessionStorage.getItem('completedQuestions') || '[]');
+  const completedQuestions = JSON.parse(localStorage.getItem('completedQuestions') || '[]');
   if (completedQuestions.length > 0) {
     updateProgressBar();
   }
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         const result = await response.json();
-        console.log("Submission result:", result); // Add this line to debug
+        console.log("Submission result:", result);
 
         if (response.ok && result.submission) {
           // Extract data from the response - backend returns flattened data now (not wrapped in submission object)
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Add the updateProgressBar function
 function updateProgressBar() {
   try {
-    const completedQuestions = JSON.parse(sessionStorage.getItem('completedQuestions') || '[]');
+    const completedQuestions = JSON.parse(localStorage.getItem('completedQuestions') || '[]');
     const totalQuestions = 10; // Update this with your actual total number of questions
 
     // Calculate progress percentage
@@ -216,7 +216,7 @@ function updateProgressBar() {
 
 async function saveProgressToDatabase(problemId) {
   try {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (!token) {
       console.error('No token found');
       return;
@@ -243,10 +243,10 @@ async function saveProgressToDatabase(problemId) {
     console.log('Progress saved:', data);
 
     // Update local storage after successful save
-    const completedQuestions = JSON.parse(sessionStorage.getItem('completedQuestions') || '[]');
+    const completedQuestions = JSON.parse(localStorage.getItem('completedQuestions') || '[]');
     if (!completedQuestions.includes(problemId)) {
       completedQuestions.push(problemId);
-      sessionStorage.setItem('completedQuestions', JSON.stringify(completedQuestions));
+      localStorage.setItem('completedQuestions', JSON.stringify(completedQuestions));
 
       // Update progress bar
       updateProgressBar();
@@ -264,7 +264,7 @@ async function saveProgressToDatabase(problemId) {
 
 async function loadProgressFromDatabase() {
   try {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (!token) {
       console.error('No token found');
       return;
@@ -285,7 +285,7 @@ async function loadProgressFromDatabase() {
     const data = await response.json();
     if (data.completedQuestions && data.completedQuestions.length > 0) {
       // Update session storage with loaded progress
-      sessionStorage.setItem('completedQuestions', JSON.stringify(data.completedQuestions));
+      localStorage.setItem('completedQuestions', JSON.stringify(data.completedQuestions));
       console.log('Progress loaded:', data.completedQuestions);
 
       // Update progress bar
@@ -299,11 +299,11 @@ async function loadProgressFromDatabase() {
 // Update the updateProgress function
 function updateProgress(problemId) {
   try {
-    const completedQuestions = JSON.parse(sessionStorage.getItem('completedQuestions') || '[]');
+    const completedQuestions = JSON.parse(localStorage.getItem('completedQuestions') || '[]');
 
     if (!completedQuestions.includes(problemId)) {
       completedQuestions.push(problemId);
-      sessionStorage.setItem('completedQuestions', JSON.stringify(completedQuestions));
+      localStorage.setItem('completedQuestions', JSON.stringify(completedQuestions));
 
       // Save to database
       saveProgressToDatabase(problemId);
