@@ -9,7 +9,7 @@ const submissionRoutes = require("./routes/submissionRoutes");
 const problemRoutes = require("./routes/problemRoutes");
 const topicRoutes = require("./routes/topicRoutes");
 const path = require("path");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 
 // Load environment variables
 dotenv.config();
