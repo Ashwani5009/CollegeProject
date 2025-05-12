@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 function updateProgressBar() {
   try {
     const completedQuestions = JSON.parse(localStorage.getItem('completedQuestions') || '[]');
-    const totalQuestions = 10; // Update this with your actual total number of questions
+    const totalQuestions = 50;
 
     // Calculate progress percentage
     const progressPercentage = (completedQuestions.length / totalQuestions) * 100;

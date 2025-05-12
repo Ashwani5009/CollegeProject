@@ -123,12 +123,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const progressBar = document.getElementById("progress");
     
     // Check for newly completed questions
-    const newlyCompleted = sessionStorage.getItem("newlyCompletedQuestion");
+    const newlyCompleted = localStorage.getItem("newlyCompletedQuestion");
     if (newlyCompleted) {
         // Show notification for newly completed question
         showCompletionNotification();
         // Clear the flag so notification doesn't show again on refresh
-        sessionStorage.removeItem("newlyCompletedQuestion");
+        localStorage.removeItem("newlyCompletedQuestion");
     }
     
     // Load saved profile photo (if any) from sessionStorage
@@ -290,8 +290,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Function to update progress bar
 function updateProgressBar() {
-    const completedQuestions = JSON.parse(sessionStorage.getItem("completedQuestions") || "[]");
-    const totalQuestions = 15; // Example total number of questions
+    const completedQuestions = JSON.parse(localStorage.getItem("completedQuestions") || "[]");
+    const totalQuestions = 15;
     const progressPercentage = Math.round((completedQuestions.length / totalQuestions) * 100);
     
     const progressElement = document.getElementById("progress");
@@ -344,8 +344,8 @@ function showCompletionNotification() {
     }
     
     // Get the number of completed questions
-    const completedQuestions = JSON.parse(sessionStorage.getItem("completedQuestions") || "[]");
-    const totalQuestions = 15; // Example total
+    const completedQuestions = JSON.parse(localStorage.getItem("completedQuestions") || "[]");
+    const totalQuestions = 50;
     
     // Set notification message
     notification.innerHTML = `
