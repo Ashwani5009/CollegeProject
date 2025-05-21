@@ -5,7 +5,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const User = require("./models/User");
-const authRoutes = require("./routes/authRoutes");
+// const authRoutes = require("./routes/authRoutes");
 const submissionRoutes = require("./routes/submissionRoutes");
 const problemRoutes = require("./routes/problemRoutes");
 const topicRoutes = require("./routes/topicRoutes");
@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/problems", problemRoutes);
 app.use("/api/topics", topicRoutes);
-app.use("/api/authRoutes", authRoutes);
+// app.use("/api/authRoutes", authRoutes);
 
 // Serve the sign_up.html file for the root route
 app.get("/", (req, res) => {
