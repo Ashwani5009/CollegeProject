@@ -14,7 +14,7 @@ document.getElementById("sign-up-form").addEventListener("submit", async (event)
 
     try {
         // Send sign-up request to the backend
-        const response = await fetch("https://collegeproject-fnkx.onrender.com/register", {
+        const response = await fetch("https://collegeproject-fnkx.onrender.com/authRoutes/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(signUpData),
