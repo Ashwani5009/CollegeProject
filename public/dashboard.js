@@ -167,6 +167,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const topicResponse = await fetch("https://collegeproject-fnkx.onrender.com/api/topics");
         const topics = await topicResponse.json();
+        console.log(topics);
 
         if (topicResponse.ok && topics.length > 0) {
             topics.forEach((topic, index) => {
