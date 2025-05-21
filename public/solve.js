@@ -47,12 +47,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const problemIOElement = document.getElementById("problem-input-output");
   const codeEditor = document.getElementById("code-editor");
   const submitButton = document.getElementById("submit-code-button");
-
+  
+  const editorTheme = savedTheme === 'dark' ? 'dracula' : 'eclipse';
   // Initialize CodeMirror editor
   const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
     lineNumbers: true,
     mode: "python",
-    theme: "material-darker",
+    theme: editorTheme,
     matchBrackets: true,
     autoCloseBrackets: true,
     indentUnit: false,
@@ -103,6 +104,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("language").addEventListener("change", function() {
     const selectedLang = this.value;
     setLanguageMode(selectedLang);
+  });
+
+  let isDarkMode = savedTheme === 'dark';
+
+  document.getElementById("input").addEventListener("click", () => {
+    isDarkMode = !isDarkMode;
+    const newTheme = isDarkMode ? "dracula" : "eclipse";
+    editor.setOption("theme", newTheme);
+    document.body.classList.toggle("dark-mode", isDarkMode);
   });
 
   // Set mode and hint based on language
