@@ -122,15 +122,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const problemSelect = document.getElementById("question-select");
     const progressBar = document.getElementById("progress");
     
-    // Check for newly completed questions
-    const newlyCompleted = localStorage.getItem("newlyCompletedQuestion");
-    if (newlyCompleted) {
-        // Show notification for newly completed question
-        showCompletionNotification();
-        // Clear the flag so notification doesn't show again on refresh
-        localStorage.removeItem("newlyCompletedQuestion");
-    }
-    
     // Load saved profile photo (if any) from sessionStorage
     const savedPhoto = sessionStorage.getItem("profilePhoto");
     if (savedPhoto) {
@@ -166,14 +157,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     
     // Check authentication
-    const token = sessionStorage.getItem('token');
-    /* 
-    Temporarily commented out to ensure content visibility for testing
+    const token = sessionStorage.getItem('token'); 
     if (!token) {
         // Redirect to login page if no token found
         window.location.href = "index.html";
     }
-    */
 
     // Fetch topics on page load
     try {
@@ -291,7 +279,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Function to update progress bar
 function updateProgressBar() {
     const completedQuestions = JSON.parse(localStorage.getItem("completedQuestions") || "[]");
-    const totalQuestions = 15;
+    const totalQuestions = 50;
     const progressPercentage = Math.round((completedQuestions.length / totalQuestions) * 100);
     
     const progressElement = document.getElementById("progress");
@@ -330,40 +318,4 @@ function updateProgressBar() {
         modalProgressElement.style.width = `${progressPercentage}%`;
         modalProgressElement.textContent = progressPercentage > 0 ? `${progressPercentage}%` : '';
     }
-}
-
-// Function to show completion notification on dashboard
-function showCompletionNotification() {
-    // Create the notification element if it doesn't exist
-    let notification = document.getElementById('dashboard-notification');
-    if (!notification) {
-        notification = document.createElement('div');
-        notification.id = 'dashboard-notification';
-        notification.className = 'dashboard-notification';
-        document.body.appendChild(notification);
-    }
-    
-    // Get the number of completed questions
-    const completedQuestions = JSON.parse(localStorage.getItem("completedQuestions") || "[]");
-    const totalQuestions = 50;
-    
-    // Set notification message
-    notification.innerHTML = `
-        <div class="notification-icon">🏆</div>
-        <div class="notification-content">
-            <div class="notification-title">Progress Updated!</div>
-            <div class="notification-message">You've completed ${completedQuestions.length} out of ${totalQuestions} questions.</div>
-        </div>
-        <button class="notification-close" onclick="this.parentElement.classList.remove('show')">×</button>
-    `;
-    
-    // Show notification
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 500);
-    
-    // Hide notification after 5 seconds
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 5500);
 }

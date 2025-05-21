@@ -49,10 +49,109 @@ document.addEventListener("DOMContentLoaded", async () => {
   const submitButton = document.getElementById("submit-code-button");
 
   // Initialize CodeMirror editor
-  const editor = CodeMirror.fromTextArea(codeEditor, {
+  const editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
     lineNumbers: true,
-    mode: "javascript",
-    theme: "dracula",
+    mode: "python",
+    theme: "material-darker",
+    matchBrackets: true,
+    autoCloseBrackets: true,
+    indentUnit: false,
+    indentWithTabs: false,
+    smartIndent: true,
+    lineWrapping: true,
+    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+    foldGutter: true,
+    electricChars: true,
+    extraKeys: {
+      "Tab": function(cm) {
+        if (cm.somethingSelected()) {
+          cm.indentSelection("add");
+        } else {
+          cm.replaceSelection("    ", "end");
+        }
+      },
+      "Shift-Tab": function(cm) {
+        cm.indentSelection("subtract");
+      },
+      "Enter": function(cm) {
+        const pos = cm.getCursor();
+        const line = cm.getLine(pos.line);
+        const mode = cm.getOption("mode");
+        cm.execCommand("newlineAndIndent");
+        if (mode === "python" && /^\s*(else|elif|except|finally|return)\b/.test(cm.getLine(pos.line))) {
+          cm.indentLine(pos.line, "subtract");
+        }
+        if ((mode === "text/x-java" || mode === "text/x-c++src") && /\{\s*$/.test(line)) {
+          cm.replaceSelection("    ");
+        }
+      },
+      "}": function(cm) {
+        const mode = cm.getOption("mode");
+        const pos = cm.getCursor();
+        const line = cm.getLine(pos.line);
+
+        if ((mode === "text/x-java" || mode === "text/x-c++src") && /^\s*\}/.test(line)) {
+          cm.indentLine(pos.line, "subtract");
+        }
+        cm.replaceSelection("}");
+      },
+      "Ctrl-Space": "autocomplete"
+    }
+  });
+
+  // Language selection logic
+  document.getElementById("language").addEventListener("change", function() {
+    const selectedLang = this.value;
+    setLanguageMode(selectedLang);
+  });
+
+  // Set mode and hint based on language
+  function setLanguageMode(language) {
+    if (language === "python") {
+      editor.setOption("mode", "python");
+    } else if (language === "java") {
+      editor.setOption("mode", "text/x-java");
+    } else if (language === "cpp" || language === "c++") {
+      editor.setOption("mode", "text/x-c++src");
+    }
+  }
+
+  // Register custom hint
+  function customHint(cm) {
+    const mode = cm.getOption("mode");
+
+    let keywords = [];
+
+    if (mode === "python") {
+      keywords = ["def", "return", "import", "for", "while", "if", "else", "elif", "print", "range", "len", "class"];
+    } else if (mode === "text/x-java") {
+      keywords = ["class", "public", "static", "void", "main", "System", "out", "println", "new", "String", "int"];
+    } else if (mode === "text/x-c++src") {
+      keywords = ["#include", "int", "main", "std", "cout", "cin", "return", "using", "namespace"];
+    }
+
+    const cur = cm.getCursor();
+    const token = cm.getTokenAt(cur);
+    const start = token.start;
+    const end = token.end;
+    const word = token.string;
+
+    const list = keywords.filter(k => k.startsWith(word));
+
+    return {
+      list,
+      from: CodeMirror.Pos(cur.line, start),
+      to: CodeMirror.Pos(cur.line, end)
+    };
+  }
+
+  CodeMirror.registerHelper("hint", "custom", customHint);
+  editor.setOption("hintOptions", { hint: CodeMirror.hint.custom });
+
+  editor.on("inputRead", function(cm, change) {
+    if (change.text[0].match(/[\w#]/)) {
+      cm.showHint({ hint: CodeMirror.hint.custom, completeSingle: false });
+    }
   });
 
   // Fetch problem details using problemId
