@@ -158,10 +158,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     
     // Check authentication
     const token = sessionStorage.getItem('token'); 
-    if (!token) {
-        // Redirect to login page if no token found
-        window.location.href = "index.html";
-    }
+    // if (!token) {
+    //     // Redirect to login page if no token found
+    //     window.location.href = "index.html";
+    // }
 
     // Fetch topics on page load
     try {

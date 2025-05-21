@@ -15,7 +15,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
 
     try {
         // Send login request
-        const response = await fetch("https://collegeproject-fnkx.onrender.com/api/authRoutes/login", {
+        const response = await fetch("http://localhost:5000/api/authRoutes/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(loginData),
