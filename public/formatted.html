@@ -1,82 +1,51 @@
-<div style="max-width: 900px; margin: auto; padding: 24px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333;"><div>
+<div ><div>
   <div>
-    <h2 style="font-size: 24px; font-weight: 600; margin-bottom: 16px;">Minimum Path Sum In a Grid</h2>
+    
 
   </div>
   <div>
 
   <div>
-  <p>In this article, we will solve the most asked coding interview problem: Minimum Path Sum In a Grid.</p>
-
-  <p><strong>Problem Description:&nbsp;</strong></p>
-  <p>We are given an “N*M” matrix of integers. We need to find a path from the top-left corner to the bottom-right corner of the matrix, such that there is a minimum cost past that we select.</p>
-  <p>At every cell, we can move in only two directions: right and bottom. The cost of a path is given as the sum of values of cells of the given matrix.</p>
+  <p><strong>Problem Statement: </strong>Given the root of a Binary Tree, write a recursive function that returns an array containing the inorder traversal of the tree.</p>
   <div><details> <summary> <strong> Examples </strong> </summary>
   <div>
-
-  <div></div><pre style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><strong>Example:</strong>
-  <img src="https://lh3.googleusercontent.com/0NwVLxnlw_pj_A8zXJMtCtfxaVBdN9TckPiv3yLtHeROub8tvHjqeSBqqy29jBx4Cb8dqhkcsub6-zzC4K8Zwv5yDb4yKW4Irg2RmK1kvnK0IFaSjL82S1fUSApESPjwjcRayR4U" alt="" width="624" height="320"></pre>
+  <div></div><pre style="padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <strong>Example 1:</strong>
+  <strong>Input:</strong> Binary Tree: 4 2 5 3 -1 7 6 -1 9 -1 -1 8 -1 1</pre>
+  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image1-OddKAHS_" alt="" width="439" height="286"></figure>
+  <div></div><pre style=" padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><strong>Output:</strong> Output: [3, 1, 9, 2, 4, 7, 5, 8, 6]
+  <strong>Explanation: </strong>We traverse the binary tree in the order of Left, Root then Right recursively resulting in the following traversal:</pre>
+  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image2-Ig46S3iB" alt="" width="439" height="286"></figure>
+  <div></div><pre style="padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><strong>Example 2:</strong>
+  <strong>Input:</strong> Binary Tree: 1 2 3 4 5 6 7 -1 -1 8 -1 -1 -1 9 10</pre>
+  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image3-GfMyz57G" alt="" width="439" height="286"></figure>
+  <div></div><pre style="adding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><strong>Output :</strong> [1 2 4 5 8 3 6 7 9 10]
+  <strong>Explanation: </strong>We traverse the binary tree in the order of Root, Left then Right recursively resulting in the following traversal:</pre>
+  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image4-c7MYU1Kf" alt="" width="439" height="286"></figure>
   </div>
   </details></div>
   <p><strong><em>Disclaimer</em></strong>: <em>Don’t jump directly to the solution, try it out yourself first. </em></p>
 
-  <div>
-  <div>
-  <div>
-  <div>
-  <p>Expand any one approach by clicking the given options in the bar. Clicking one approach on bar, closes all other expands. You can manually expand more than one approach at a time</p>
-  </div>
-  </div>
-  </div>
-  </div>
-  <div>
-  <div><details> <summary> Memorization Approach </summary>
+  <div><details> <summary> Optimal Approach </summary>
   <div><details open=""> <summary> Algorithm / Intuition </summary>
   <div>
-
-  <p><strong>Why a Greedy Solution doesn’t work?</strong></p>
-  <p>As we have to return the minimum path sum, the first approach that comes to our mind is to take a greedy approach and always form a path by locally choosing the cheaper option.</p>
-  <p>This approach will not give us the correct answer. Let us look at this example to understand:</p>
-  <p><img src="https://lh5.googleusercontent.com/qb4nDpgu2Iwr0fyDwdoHC-8A_6igAdwY3rnnc39aMtEcp1xR5DzFOB7rpZXOpdEt7RO45y5_TrpksvI4YDx8RsPHnTk0O8ra4PqSAdYIZION5_3w3vyslZVFtBPtEZQeCmrmLRSj" alt="" width="287" height="336"></p>
-  <p>At every cell, we have two choices: to move right and move down. Our ultimate aim is to provide a path that provides us the least path sum. Therefore at every cell, we will make the choice to move which costs are less.</p>
-  <p><img src="https://lh5.googleusercontent.com/yI1C87s0soIXNIee9y-La1HxDmU3bTR3C1C7BVsDDET7MvzNFd0JfIN4iF_zMcS0l_hOJTobneurvjiEsqCpH1zg20p0PQPUhzpk2XWTWLIq-tJO6_txv69bTi3cCo8muk1kqL_X" alt="" width="624" height="363"></p>
-  <ul>
-  <li>Figure on the left gives us a greedy solution, where we move by taking the local best choice.</li>
-  <li>Figure on the right gives us a non-greedy solution.</li>
-  </ul>
-  <p>We can clearly see the problem with the greedy solution. Whenever we are making a local choice, we may tend to choose a path that may cost us way more later.</p>
-  <p>Therefore, the other alternative left to us is to generate all the possible paths and see which is the path with the minimum path sum. To generate all paths we will use <strong>recursion</strong>.</p>
-  <p><strong>Steps to form the recursive solution:&nbsp;</strong></p>
-  <p>We will first form the recursive solution by the three points mentioned in the <a href="https://takeuforward.org/data-structure/dynamic-programming-introduction/">Dynamic Programming Introduction</a>.&nbsp;</p>
-  <p><strong>Step 1: </strong>Express the problem in terms of indexes.</p>
-  <p>We are given two variables N and M, representing the dimensions of the matrix.&nbsp;</p>
-  <p>We can define the function with two parameters i and j, where i and j represent the row and column of the matrix.</p>
-  <p><img src="https://lh5.googleusercontent.com/bZvncxuCZQa9XkOEqugo04BapJFKTeN5FhrcQs5SwI1PN6CczkuHSisBDKKrAWCQX44lzWXHEhvsr3Av8OafSOYuGuHvVFQ_tUrMZEvTeGUKvCnHJa51z9JWgbrCE9R4OvBL0S8Y" alt="" width="435" height="112"></p>
-  <p>We will be doing a top-down recursion, i.e we will move from the cell[M-1][N-1] and try to find our way to the cell[0][0]. Therefore at every index, we will try to move up and towards the left.</p>
-  <p><strong>Base Case:</strong></p>
-  <p>There will be three base cases:</p>
-  <ul>
-  <li>When i=0 and j=0, that is we have reached the destination so we can add to path the current cell value, hence we return mat[0][0].</li>
-  <li>When i&lt;0 or j&lt;0, it means that we have crossed the boundary of the matrix and we don’t want to find a path from here, so we return a very large number( say, 1e9) so that this path is rejected by the calling function.</li>
-  </ul>
-  <p><img src="https://lh4.googleusercontent.com/DlBcbhjXW2wM-S_Q8Tyj94E_Isc9T974iyh-LkPxUb4wzJLSShxU5oFpE0DgvdCfNA80Z9vWlPey4iwy8idqrhJqBaVD59oi9EIEonIIoMG-0UvyybaJbisi_YaHIgkdSGZTpetN" alt="" width="624" height="351"></p>
-  <p>The pseudocode till this step will be:</p>
-  <p><img src="https://lh3.googleusercontent.com/-xtpMFNkKcyFd61Vz9IjIGJxGnVVfDwappdcNHGGJ00ckikL4wRZ4zyAy9ZXDwGXtYzwDZj3WoPKzx8w1gmTWwUJ1VN1KlpEDZCQi_VmwJRpZhtdIB2krGBzckBCm1ZhIdGSu3jv" alt="" width="370" height="259"></p>
-  <p><strong>Step 2: </strong>Try out all possible choices at a given index.</p>
-  <p>As we are writing a top-down recursion, at every index we have two choices, one to go up(↑) and the other to go left(←). To go upwards, we will reduce i by 1, and move towards left we will reduce j by 1.</p>
-  <p>Now when we get our answer for the recursive call (f(i-1,j) or f(i,j-1)), we need to also add the current cell value to it as we have to include it too for the current path sum.</p>
-  <p><img src="https://lh3.googleusercontent.com/pFB-izUHqGjXJ1jYrQCIcH7HBBCVpGHuZb1FaVxMetEpmIRmk4LFb9MDLYEQk9IH5fgpRJRmB3D9AWsFzg8gnRxv_LSqQ6yCEPDAqqTnpQa5cD8qTjCD-gvOPznwAki2aAsHuccb" alt="" width="427" height="297"></p>
-  <p><strong>Step 3: Take the maximum of all choices</strong></p>
-  <p>As we have to find the<strong> minimum path sum </strong>of all the possible unique paths, we will return the <strong>minimum</strong> of the choices(up and left)&nbsp;</p>
-  <p>The final pseudocode after steps 1, 2, and 3:</p>
-  <figure><img src="https://static.takeuforward.org/wp/uploads/2022/01/rec-5.jpeg" alt="" width="514" height="432"></figure>
-  <p><strong>Steps to memoize a recursive solution:</strong></p>
-  <p>If we draw the recursion tree, we will see that there are overlapping subproblems. In order to convert a recursive solution the following steps will be taken:</p>
+  <p>Inorder traversal stands as one of the depth-first traversal techniques for navigating nodes in a binary tree. The method starts by exploring the left subtree recursively in the following order: left child, root node, right child. Initially, it traverses the left subtree until reaching the leftmost node. Upon reaching a null node, signifying the end of a subtree, the recursive process halts.Then we visit the current node that had invoked the inorder on its left child. After visiting the current node we visit the right subtree in the inorder manner as well.</p>
+  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image5-X1qcF1OC" alt="" width="439" height="286"></figure>
+  <p><strong>Base Case:</strong> If the current node is null, it means we have reached the end of a subtree and there are no further nodes to explore. Hence the recursive function stops and we return from that particular recursive call.</p>
+  <p><strong>Recursive Function:</strong></p>
   <ol>
-  <li>Create a dp array of size [n][m]</li>
-  <li>Whenever we want to find the answer of a particular row and column (say f(i,j)), we first check whether the answer is already calculated using the dp array(i.e dp[i][j]!= -1 ). If yes, simply return the value from the dp array.</li>
-  <li>If not, then we are finding the answer for the given values for the first time, we will use the recursive relation as usual but before returning from the function, we will set dp[i][j] to the solution we get.</li>
+  <li><strong>Traverse Left Subtree:</strong> Recursively traverse the left subtree by invoking the preorder function on the left child of the current node. This step continues the exploration of nodes in a depth first manner.</li>
+  <li><strong>Process Current Node:</strong> The recursive function begins by processing ie. adding to the array or printing the current node.</li>
+  <li><strong>Traverse Right Subtree:</strong> After traversing the entire left subtree,we traverse the right subtree recursively. We once again invoke the preorder function, but this time on the right child of the current node.</li>
   </ol>
+  <p><strong>Algorithm:</strong></p>
+  <p><strong>Step 1:</strong> Check for base case that if the current node is null, return the void function.</p>
+  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image6-esWBb7Ks" alt="" width="439" height="286"></figure>
+  <p><strong>Step 2:</strong> Invoke the inorder function on the left child to traverse the entire left subtree first.</p>
+  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image7-_I3QwQ_R" alt="" width="439" height="286"></figure>
+  <p><strong>Step 3:</strong> Push the value of the current node into the preorder traversal array.</p>
+  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image8-5cHBpJTs" alt="" width="439" height="286"></figure>
+  <p><strong>Step 4:</strong> After visiting the current node, we invoke the inorder function on the right child to traverse the right subtree in the end.</p>
+  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image9-81NLp8CB" alt="" width="439" height="286"></figure>
   </div>
   </details> <details> <summary> Code </summary>
   <div>
@@ -84,602 +53,258 @@
   </div>
   <div>
   <div data-lang="cpp">
-  <div><strong>Code: C++</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="cpp">
-  #include &lt;bits/stdc++.h&gt;
+  <div><strong>Code: C++</strong></div><pre tabindex="0" style=" padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <code lang="cpp">
+  #include &lt;iostream&gt;
+  #include &lt;vector&gt;
   using namespace std;
-  // Helper function to find the minimum sum path from (i, j) to (0, 0) in the matrix
-  int minSumPathUtil(int i, int j, vector&lt;vector&lt;int&gt;&gt; &amp;matrix, vector&lt;vector&lt;int&gt;&gt; &amp;dp) {
-   // Base cases
-   if (i == 0 &amp;&amp; j == 0)
-   return matrix[0][0]; // If we are at the top-left corner, the minimum path sum is the value at (0, 0)
-   if (i &lt; 0 || j &lt; 0)
-   return INT_MAX; // If we go out of bounds, return a large value to avoid considering this path
-   if (dp[i][j] != -1)
-   return dp[i][j]; // If the result is already computed, return it
-   // Calculate the minimum sum path by considering moving up and moving left
-   int up = matrix[i][j] + minSumPathUtil(i - 1, j, matrix, dp);
-   int left = matrix[i][j] + minSumPathUtil(i, j - 1, matrix, dp);
-   // Store the result in the DP table and return it
-   return dp[i][j] = min(up, left);
+  // Node structure for the binary tree
+  struct Node {
+   int data;
+   Node* left;
+   Node* right;
+   // Constructor to initialize
+   // the node with a value
+   Node(int val) : data(val), left(nullptr), right(nullptr) {}
+  };
+  // Function to perform inorder traversal
+  // of the tree and store values in 'arr'
+  void inorder(Node* root, vector&lt;int&gt; &amp;arr){
+   // If the current node is NULL
+   // (base case for recursion), return
+   if(root == nullptr){
+   return;
+   }
+   // Recursively traverse the left subtree
+   inorder(root-&gt;left, arr);
+   // Push the current node's
+   // value into the vector
+   arr.push_back(root-&gt;data);
+   // Recursively traverse
+   // the right subtree
+   inorder(root-&gt;right, arr);
   }
-  // Main function to find the minimum sum path in the matrix
-  int minSumPath(int n, int m, vector&lt;vector&lt;int&gt;&gt; &amp;matrix) {
-   vector&lt;vector&lt;int&gt;&gt; dp(n, vector&lt;int&gt;(m, -1)); // DP table to memoize results
-   return minSumPathUtil(n - 1, m - 1, matrix, dp); // Start from the bottom-right corner
+  // Function to initiate inorder traversal
+  // and return the resulting vector
+  vector&lt;int&gt; inOrder(Node* root){
+   // Create an empty vector to
+   // store inorder traversal values
+   vector&lt;int&gt; arr;
+   // Call the inorder traversal function
+   inorder(root, arr);
+   // Return the resulting vector
+   // containing inorder traversal values
+   return arr;
   }
-  int main() {
-   vector&lt;vector&lt;int&gt;&gt; matrix{
-   {5, 9, 6},
-   {11, 5, 2}
-   };
-   int n = matrix.size();
-   int m = matrix[0].size();
-   cout &lt;&lt; "Minimum sum path: " &lt;&lt; minSumPath(n, m, matrix) &lt;&lt; endl;
+  // Main function
+  int main()
+  {
+   // Creating a sample binary tree
+   Node* root = new Node(1);
+   root-&gt;left = new Node(2);
+   root-&gt;right = new Node(3);
+   root-&gt;left-&gt;left = new Node(4);
+   root-&gt;left-&gt;right = new Node(5);
+   // Getting inorder traversal
+   vector&lt;int&gt; result = inOrder(root);
+   // Displaying the inorder traversal result
+   cout &lt;&lt; "Inorder Traversal: ";
+   // Output each value in the
+   // inorder traversal result
+   for(int val : result) {
+   cout &lt;&lt; val &lt;&lt; " ";
+   }
+   cout &lt;&lt; endl;
    return 0;
   }
-  </code>
-  </pre>
+   </code>
+   </pre>
   </div>
   <div data-lang="java">
-  <div><strong>Code: Java</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="java">
-  import java.util.*;
-  class TUF {
-   // Helper function to calculate the minimum sum path in the matrix
-   static int minSumPathUtil(int i, int j, int[][] matrix, int[][] dp) {
-   // Base cases
-   if (i == 0 &amp;&amp; j == 0)
-   return matrix[0][0]; // If we're at the top-left cell, return its value
-   if (i &lt; 0 || j &lt; 0)
-   return (int) Math.pow(10, 9); // If we're out of bounds, return a large value
-   if (dp[i][j] != -1)
-   return dp[i][j]; // If we've already calculated this cell, return the stored result
-   // Calculate the sum of the current cell plus the minimum sum path from above and from the left
-   int up = matrix[i][j] + minSumPathUtil(i - 1, j, matrix, dp);
-   int left = matrix[i][j] + minSumPathUtil(i, j - 1, matrix, dp);
-   // Store the minimum of the two possible paths
-   return dp[i][j] = Math.min(up, left);
-   }
-   // Main function to calculate the minimum sum path in the matrix
-   static int minSumPath(int n, int m, int[][] matrix) {
-   int dp[][] = new int[n][m];
-   // Initialize the DP matrix with -1
-   for (int row[] : dp)
-   Arrays.fill(row, -1);
-   // Call the helper function starting from the bottom-right cell
-   return minSumPathUtil(n - 1, m - 1, matrix, dp);
-   }
-   public static void main(String args[]) {
-   // Define the matrix
-   int matrix[][] = {
-   {5, 9, 6},
-   {11, 5, 2}
-   };
-   int n = matrix.length;
-   int m = matrix[0].length;
-   // Calculate and print the minimum sum path in the matrix
-   System.out.println(minSumPath(n, m, matrix));
+  <div><strong>Code: Java</strong></div><pre tabindex="0" style="padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <code lang="java">
+  import java.util.ArrayList;
+  import java.util.List;
+  // Node class for the binary tree
+  class Node {
+   int data;
+   Node left;
+   Node right;
+   // Constructor to initialize
+   // the node with a value
+   Node(int val) {
+   data = val;
+   left = null;
+   right = null;
    }
   }
-  </code>
-  </pre>
+  public class BinaryTreeInorderTraversal {
+   // Function to perform inorder traversal
+   // of the tree and store values in 'arr'
+   public static void inorder(Node root, List&lt;Integer&gt; arr) {
+   // If the current node is null
+   // (base case for recursion), return
+   if (root == null) {
+   return;
+   }
+   // Recursively traverse the left subtree
+   inorder(root.left, arr);
+   // Push the current node's
+   // value into the list
+   arr.add(root.data);
+   // Recursively traverse
+   // the right subtree
+   inorder(root.right, arr);
+   }
+   // Function to initiate inorder traversal
+   // and return the resulting list
+   public static List&lt;Integer&gt; inOrder(Node root) {
+   // Create an empty list to
+   // store inorder traversal values
+   List&lt;Integer&gt; arr = new ArrayList&lt;&gt;();
+   // Call the inorder traversal function
+   inorder(root, arr);
+   // Return the resulting list
+   // containing inorder traversal values
+   return arr;
+   }
+   // Main function
+   public static void main(String[] args) {
+   // Creating a sample binary tree
+   Node root = new Node(1);
+   root.left = new Node(2);
+   root.right = new Node(3);
+   root.left.left = new Node(4);
+   root.left.right = new Node(5);
+   // Getting inorder traversal
+   List&lt;Integer&gt; result = inOrder(root);
+   // Displaying the inorder traversal result
+   System.out.print("Inorder Traversal: ");
+   // Output each value in the
+   // inorder traversal result
+   for (int val : result) {
+   System.out.print(val + " ");
+   }
+   System.out.println();
+   }
+  }
+   </code>
+   </pre>
   </div>
   <div data-lang="python">
-  <div><strong>Code: Python</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="python">
-  def minSumPathUtil(i, j, matrix, dp):
-   # Base case: If we are at the top-left corner, return the value of that cell.
-   if i == 0 and j == 0:
-   return matrix[0][0]
-   # Base case: If we are out of bounds (negative indices), return a very large value.
-   if i &lt; 0 or j &lt; 0:
-   return int(1e9)
-   # If we have already calculated the minimum sum for this cell, return it.
-   if dp[i][j] != -1:
-   return dp[i][j]
-   # Calculate the minimum sum path recursively by considering both up and left moves.
-   up = matrix[i][j] + minSumPathUtil(i-1, j, matrix, dp)
-   left = matrix[i][j] + minSumPathUtil(i, j-1, matrix, dp)
-   # Store the minimum of the two possible paths in the DP table.
-   dp[i][j] = min(up, left)
-   return dp[i][j]
-  def minSumPath(n, m, matrix):
-   # Create a DP table initialized with -1 values.
-   dp = [[-1 for j in range(m)] for i in range(n)]
-   # Call the utility function to find the minimum sum path.
-   return minSumPathUtil(n-1, m-1, matrix, dp)
-  def main():
-   # Example matrix with values representing cell costs.
-   matrix = [[5, 9, 6],
-   [11, 5, 2]]
-   n = len(matrix)
-   m = len(matrix[0])
-   # Call the minSumPath function and print the result.
-   print(minSumPath(n, m, matrix))
-  if __name__ == '__main__':
-   main()
-  </code>
-  </pre>
-  </div>
-  <div data-lang="javascript">
-  <div><strong>Code: Javascript</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="javascript">
-  // Define a function to find the minimum sum path in a matrix
-  function minSumPath(n, m, matrix) {
-   // Create a 2D array 'dp' to store intermediate results (memoization)
-   const dp = new Array(n).fill(null).map(() =&gt; new Array(m).fill(-1));
-   // Define a recursive utility function to find the minimum sum path
-   function minSumPathUtil(i, j) {
-   // Base cases
-   if (i === 0 &amp;&amp; j === 0) {
-   return matrix[0][0];
-   }
-   if (i &lt; 0 || j &lt; 0) {
-   return Infinity;
-   }
-   // If the result for this cell has already been calculated, return it
-   if (dp[i][j] !== -1) {
-   return dp[i][j];
-   }
-   // Calculate the sum of the current cell and the minimum of the two possible paths
-   const up = matrix[i][j] + minSumPathUtil(i - 1, j);
-   const left = matrix[i][j] + minSumPathUtil(i, j - 1);
-   // Store the result for this cell in the memoization table and return it
-   dp[i][j] = Math.min(up, left);
-   return dp[i][j];
-   }
-   // Start the recursive calculation from the bottom-right cell
-   return minSumPathUtil(n - 1, m - 1);
-  }
-  // Define the matrix as a 2D array
-  const matrix = [
-   [5, 9, 6],
-   [11, 5, 2],
-  ];
-  // Get the dimensions of the matrix
-  const n = matrix.length;
-  const m = matrix[0].length;
-  // Call the minSumPath function and print the result
-  console.log(minSumPath(n, m, matrix));
-  </code>
-  </pre>
-  </div>
-  <p></p>
-  <pre style="background:#eee; padding:1rem; border-radius:5px; overflow:auto"><code>Output: 21</code></pre>
-  </div>
-  </details> <details> <summary> Complexity Analysis </summary>
-  <p></p>
-  <p><strong>Time Complexity: O(N*M)</strong></p>
-  <p>Reason: At max, there will be N*M calls of recursion.</p>
-  <p><strong>Space Complexity: O((M-1)+(N-1)) + O(N*M)</strong></p>
-  <p>Reason: We are using a recursion stack space: O((M-1)+(N-1)), here (M-1)+(N-1) is the path length and an external DP Array of size ‘N*M’.</p>
-  </details></div>
-  </details></div>
-  <div><details> <summary> Tabulation Approach </summary>
-  <div><details open=""> <summary> Algorithm / Intuition </summary>
-  <div>
-  <p>Tabulation is the bottom-up approach, which means we will go from the base case to the main problem.</p>
-  <p>The steps to convert to the tabular solution are given below:</p>
-  <ul>
-  <li>Declare a dp[] array of size [n][m].</li>
-  <li>First initialize the base condition values, i.e dp[0][0] = matrix[0][0]</li>
-  <li>Our answer should get stored in dp[n-1][m-1]. We want to move from (0,0) to (n-1,m-1). But we can’t move arbitrarily, we should move such that at a particular i and j, we have all the values required to compute dp[i][j].</li>
-  <li>If we see the memoized code, values required for dp[i][j] are: dp[i-1][j] and dp[i][j-1]. So we only use the previous row and column value.</li>
-  <li>We have already filled the top-left corner (i=0 and j=0), if we move in any of the two following ways(given below), at every cell we do have all the previous values required to compute its value.</li>
-  </ul>
-  <p><img src="https://lh4.googleusercontent.com/NpEXctCr0oOUaLw4krVukuWZ4ZiLQXm8atJ2OP6wMQyzSNJjw0_jJDdzqjdgtyG_ilxZLoiOSpkTNlAQzw7bSmv4kQVjdAAysl2hKa7rmGMJxm8mZ6WdTvs5sFgCdudnEPDth9vb" alt="" width="624" height="351"></p>
-  <ul>
-  <li>We can use two nested loops to have this traversal</li>
-  <li>Whenever i&gt;0 , j&gt;0, we will simply mark dp[i][j] = matric[i][j] + min(dp[i-1][j],dp[i][j-1]), according to our recursive relation.</li>
-  <li>When i=0 or j=0, we add to up( or left) 1e9, so that this path can be rejected.</li>
-  </ul>
-  </div>
-  </details> <details> <summary> Code </summary>
-  <div>
-
-  </div>
-  <div>
-  <div data-lang="cpp">
-  <div><strong>Code: C++</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="cpp">
-  #include &lt;bits/stdc++.h&gt;
-  using namespace std;
-  // Function to find the minimum sum path from (0, 0) to (n-1, m-1) in the matrix
-  int minSumPath(int n, int m, vector&lt;vector&lt;int&gt;&gt; &amp;matrix) {
-   vector&lt;vector&lt;int&gt;&gt; dp(n, vector&lt;int&gt;(m, 0)); // Initialize a DP table to store minimum path sums
-   for (int i = 0; i &lt; n; i++) {
-   for (int j = 0; j &lt; m; j++) {
-   if (i == 0 &amp;&amp; j == 0)
-   dp[i][j] = matrix[i][j]; // If we are at the top-left corner, the minimum path sum is the value at (0, 0)
-   else {
-   // Calculate the minimum path sum considering moving up and moving left
-   int up = matrix[i][j];
-   if (i &gt; 0)
-   up += dp[i - 1][j]; // Include the minimum path sum from above
-   else
-   up += 1e9; // A large value if moving up is not possible (out of bounds)
-   int left = matrix[i][j];
-   if (j &gt; 0)
-   left += dp[i][j - 1]; // Include the minimum path sum from the left
-   else
-   left += 1e9; // A large value if moving left is not possible (out of bounds)
-   // Store the minimum path sum in dp[i][j]
-   dp[i][j] = min(up, left);
-   }
-   }
-   }
-   // The final result is stored in dp[n-1][m-1], which represents the destination
-   return dp[n - 1][m - 1];
-  }
-  int main() {
-   vector&lt;vector&lt;int&gt;&gt; matrix{
-   {5, 9, 6},
-   {11, 5, 2}
-   };
-   int n = matrix.size();
-   int m = matrix[0].size();
-   cout &lt;&lt; "Minimum sum path: " &lt;&lt; minSumPath(n, m, matrix) &lt;&lt; endl;
-   return 0;
-  }
-  </code>
-  </pre>
-  </div>
-  <div data-lang="java">
-  <div><strong>Code: Java</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="java">
-  import java.util.*;
-  class TUF {
-   // Function to calculate the minimum sum path in the matrix
-   static int minSumPath(int n, int m, int[][] matrix) {
-   int dp[][] = new int[n][m];
-   // Iterate through the matrix
-   for (int i = 0; i &lt; n; i++) {
-   for (int j = 0; j &lt; m; j++) {
-   if (i == 0 &amp;&amp; j == 0)
-   dp[i][j] = matrix[i][j]; // If we're at the top-left cell, the minimum sum is its value
-   else {
-   int up = matrix[i][j];
-   if (i &gt; 0)
-   up += dp[i - 1][j]; // Add the value from above if it's not out of bounds
-   else
-   up += (int) Math.pow(10, 9); // Add a large value if out of bounds in the up direction
-   int left = matrix[i][j];
-   if (j &gt; 0)
-   left += dp[i][j - 1]; // Add the value from the left if it's not out of bounds
-   else
-   left += (int) Math.pow(10, 9); // Add a large value if out of bounds in the left direction
-   // Store the minimum of the two possible paths
-   dp[i][j] = Math.min(up, left);
-   }
-   }
-   }
-   // The final result is stored in the bottom-right cell of the DP matrix
-   return dp[n - 1][m - 1];
-   }
-   public static void main(String args[]) {
-   // Define the matrix
-   int matrix[][] = {
-   {5, 9, 6},
-   {11, 5, 2}
-   };
-   int n = matrix.length;
-   int m = matrix[0].length;
-   // Calculate and print the minimum sum path in the matrix
-   System.out.println(minSumPath(n, m, matrix));
-   }
-  }
-  </code>
-  </pre>
-  </div>
-  <div data-lang="python">
-  <div><strong>Code: Pyhton</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="python">
-  def minSumPath(n, m, matrix):
-   # Create a DP table initialized with zeros.
-   dp = [[0 for j in range(m)] for i in range(n)]
-   # Loop through each cell in the matrix.
-   for i in range(n):
-   for j in range(m):
-   if i == 0 and j == 0:
-   # Base case: If we are at the top-left corner, set dp[i][j] to the value of that cell.
-   dp[i][j] = matrix[i][j]
-   else:
-   # Calculate the cost of moving up from the cell (i, j).
-   up = matrix[i][j]
-   if i &gt; 0:
-   up += dp[i-1][j]
-   else:
-   # If we are at the top row and can't move up, set 'up' to a large value.
-   up += int(1e9)
-   # Calculate the cost of moving left from the cell (i, j).
-   left = matrix[i][j]
-   if j &gt; 0:
-   left += dp[i][j-1]
-   else:
-   # If we are at the leftmost column and can't move left, set 'left' to a large value.
-   left += int(1e9)
-   # Store the minimum cost of reaching the current cell in dp[i][j].
-   dp[i][j] = min(up, left)
-   # The result is stored in the bottom-right corner of the DP table.
-   return dp[n-1][m-1]
-  def main():
-   # Example matrix with values representing cell costs.
-   matrix = [[5, 9, 6], [11, 5, 2]]
-   n = len(matrix)
-   m = len(matrix[0])
-   # Call the minSumPath function and print the result.
-   print(minSumPath(n, m, matrix))
+  <div><strong>Code: Python</strong></div><pre tabindex="0" style=" padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <code lang="python">
+  # Node class for the binary tree
+  class Node:
+   def __init__(self, val):
+   self.data = val
+   self.left = None
+   self.right = None
+  # Function to perform inorder traversal
+  # of the tree and store values in 'arr'
+  def inorder(root, arr):
+   # If the current node is None
+   # (base case for recursion), return
+   if root is None:
+   return
+   # Recursively traverse the left subtree
+   inorder(root.left, arr)
+   # Append the current node's
+   # value into the list
+   arr.append(root.data)
+   # Recursively traverse
+   # the right subtree
+   inorder(root.right, arr)
+  # Function to initiate inorder traversal
+  # and return the resulting list
+  def in_order(root):
+   # Create an empty list to
+   # store inorder traversal values
+   arr = []
+   # Call the inorder traversal function
+   inorder(root, arr)
+   # Return the resulting list
+   # containing inorder traversal values
+   return arr
+  # Main function
   if __name__ == "__main__":
-   main()
-  </code>
-  </pre>
+   # Creating a sample binary tree
+   root = Node(1)
+   root.left = Node(2)
+   root.right = Node(3)
+   root.left.left = Node(4)
+   root.left.right = Node(5)
+   # Getting inorder traversal
+   result = in_order(root)
+   # Displaying the inorder traversal result
+   print("Inorder Traversal:", end=" ")
+   # Output each value in the
+   # inorder traversal result
+   for val in result:
+   print(val, end=" ")
+   print()
+   </code>
+   </pre>
   </div>
   <div data-lang="javascript">
-  <div><strong>Code: Javascript</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="javascript">
-  // Define a function to find the minimum sum path in a matrix
-  function minSumPath(n, m, matrix) {
-   // Create a 2D array 'dp' to store intermediate results
-   const dp = new Array(n).fill(null).map(() =&gt; new Array(m).fill(0));
-   // Loop through each cell in the matrix
-   for (let i = 0; i &lt; n; i++) {
-   for (let j = 0; j &lt; m; j++) {
-   if (i === 0 &amp;&amp; j === 0) {
-   // If we are at the top-left cell, set dp[i][j] to the value in the matrix
-   dp[i][j] = matrix[i][j];
-   } else {
-   // Calculate the sum of the current cell and the minimum of the two possible paths (from above and from the left)
-   let up = matrix[i][j];
-   if (i &gt; 0) up += dp[i - 1][j];
-   else up += Infinity; // Set to a large value for the top row
-   let left = matrix[i][j];
-   if (j &gt; 0) left += dp[i][j - 1];
-   else left += Infinity; // Set to a large value for the leftmost column
-   // Store the minimum sum in dp[i][j]
-   dp[i][j] = Math.min(up, left);
+  <div><strong>Code: Javascript</strong></div><pre tabindex="0" style="padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <code lang="javascript">
+  // Node class for the binary tree
+  class Node {
+   constructor(val) {
+   this.data = val;
+   this.left = null;
+   this.right = null;
    }
-   }
-   }
-   // The minimum sum path will be in dp[n-1][m-1]
-   return dp[n - 1][m - 1];
   }
-  // Define the matrix as a 2D array
-  const matrix = [
-   [5, 9, 6],
-   [11, 5, 2],
-  ];
-  // Get the dimensions of the matrix
-  const n = matrix.length;
-  const m = matrix[0].length;
-  // Call the minSumPath function and print the result
-  console.log(minSumPath(n, m, matrix));
-  </code>
-  </pre>
+  // Function to perform inorder traversal
+  // of the tree and store values in 'arr'
+  function inorder(root, arr) {
+   // If the current node is null
+   // (base case for recursion), return
+   if (root === null) {
+   return;
+   }
+   // Recursively traverse the left subtree
+   inorder(root.left, arr);
+   // Push the current node's
+   // value into the array
+   arr.push(root.data);
+   // Recursively traverse
+   // the right subtree
+   inorder(root.right, arr);
+  }
+  // Function to initiate inorder traversal
+  // and return the resulting array
+  function inOrder(root) {
+   // Create an empty array to
+   // store inorder traversal values
+   const arr = [];
+   // Call the inorder traversal function
+   inorder(root, arr);
+   // Return the resulting array
+   // containing inorder traversal values
+   return arr;
+  }
+  // Creating a sample binary tree
+  const root = new Node(1);
+  root.left = new Node(2);
+  root.right = new Node(3);
+  root.left.left = new Node(4);
+  root.left.right = new Node(5);
+  // Getting inorder traversal
+  const result = inOrder(root);
+  // Displaying the inorder traversal result
+  console.log("Inorder Traversal: " + result.join(" "));
+   </code>
+   </pre>
   </div>
-  <pre style="background:#eee; padding:1rem; border-radius:5px; overflow:auto"><code> Output: 21</code></pre>
+  <p style = 'padding:1rem; border-radius:5px; overflow:auto'> <strong>Output</strong> Inorder Traversal: 4 2 5 1 3</p>
   </div>
   </details> <details> <summary> Complexity Analysis </summary>
   <p></p>
-  <p><strong>Time Complexity: O(N*M)</strong></p>
-  <p>Reason: There are two nested loops</p>
-  <p><strong>Space Complexity: O(N*M)</strong></p>
-  <p>Reason: We are using an external array of size ‘N*M’’.</p>
+  <p><strong>Time Complexity: O(N)</strong> where N is the number of nodes in the binary tree as each node of the binary tree is visited exactly once.</p>
+  <p><strong>Space Complexity: O(N)</strong> where N is the number of nodes in the binary tree. This is because the recursive stack uses an auxiliary space which can potentially hold all nodes in the tree when dealing with a skewed tree (all nodes have only one child), consuming space proportional to the number of nodes.In the average case or for a balanced tree, the maximum number of nodes that could be in the stack at any given time would be roughly the height of the tree hence O(log2N).</p>
   </details></div>
   </details></div>
-  <div><details> <summary> Space Optimization Approach </summary>
-  <div><details open=""> <summary> Algorithm / Intuition </summary>
-  <div>
-  <p>If we closely look at the relation,</p>
-  <p><strong>dp[i][j] = matrix[i][j] + min(dp[i-1][j] + dp[i][j-1]))</strong></p>
-  <p>We see that we only need the previous row and column, in order to calculate dp[i][j]. Therefore we can space optimize it.</p>
-  <p>Initially, we can take a dummy row ( say prev) and initialize it as 0.</p>
-  <p>Now the current row(say temp) <strong>only needs the </strong>previous row value and the current row’s value in order to calculate dp[i][j].</p>
-  <p><img src="https://lh3.googleusercontent.com/veS9EkabBsx3JEu4zEKZFHVOwcDUr56UQF8LwGdqqAXlckdEdmiHBvcs5uUaswzD2dacSptWdJjE1QJG5_xH0gMQZXscg_1AmycbsRrdWNkTMXCvzjk_nECgeK6D2yWU_mplM_ar" alt="" width="624" height="351"></p>
-  <p>At the next step, the temp array becomes the prev of the next step and using its values we can still calculate the next row’s values.</p>
-  <p><img src="https://lh6.googleusercontent.com/4953gxGAZ504nLrqbIdn1Kiw7tbkuDe4ijSPLC5Pgmp5mIDXuwi3JexbmDaVAGV2E8bG4hEARZ5VYvhQnySmCD8tckzvIrj8A5BTY6tH6Mdxvlz0QUn0qGHW8JZG8lW53Cff7HQJ" alt="" width="624" height="351"></p>
-  <p>At last prev[n-1] will give us the required answer.</p>
-  </div>
-  </details> <details> <summary> Code </summary>
-  <div>
-
-  </div>
-  <div>
-  <div data-lang="cpp">
-  <div><strong>Code: C++</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="cpp">
-  #include &lt;bits/stdc++.h&gt;
-  using namespace std;
-  // Function to find the minimum sum path from (0, 0) to (n-1, m-1) in the matrix
-  int minSumPath(int n, int m, vector&lt;vector&lt;int&gt;&gt; &amp;matrix) {
-   vector&lt;int&gt; prev(m, 0); // Initialize a vector to store the previous row's minimum path sums
-   for (int i = 0; i &lt; n; i++) {
-   vector&lt;int&gt; temp(m, 0); // Initialize a temporary vector for the current row
-   for (int j = 0; j &lt; m; j++) {
-   if (i == 0 &amp;&amp; j == 0)
-   temp[j] = matrix[i][j]; // If we are at the top-left corner, the minimum path sum is the value at (0, 0)
-   else {
-   // Calculate the minimum path sum considering moving up and moving left
-   int up = matrix[i][j];
-   if (i &gt; 0)
-   up += prev[j]; // Include the minimum path sum from above (previous row)
-   else
-   up += 1e9; // A large value if moving up is not possible (out of bounds)
-   int left = matrix[i][j];
-   if (j &gt; 0)
-   left += temp[j - 1]; // Include the minimum path sum from the left (current row)
-   else
-   left += 1e9; // A large value if moving left is not possible (out of bounds)
-   // Store the minimum path sum in temp[j]
-   temp[j] = min(up, left);
-   }
-   }
-   prev = temp; // Update the previous row with the current row
-   }
-   // The final result is stored in prev[m-1], which represents the destination in the last column
-   return prev[m - 1];
-  }
-  int main() {
-   vector&lt;vector&lt;int&gt;&gt; matrix{
-   {5, 9, 6},
-   {11, 5, 2}
-   };
-   int n = matrix.size();
-   int m = matrix[0].size();
-   cout &lt;&lt; "Minimum sum path: " &lt;&lt; minSumPath(n, m, matrix) &lt;&lt; endl;
-   return 0;
-  }
-  </code>
-  </pre>
-  </div>
-  <div data-lang="java">
-  <div><strong>Code: java</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="java">
-  import java.util.*;
-  class TUF {
-   // Function to calculate the minimum sum path in the matrix
-   static int minSumPath(int n, int m, int[][] matrix) {
-   // Initialize an array to store the previous row values
-   int prev[] = new int[m];
-   for (int i = 0; i &lt; n; i++) {
-   // Create a temporary array to store the current row values
-   int temp[] = new int[m];
-   for (int j = 0; j &lt; m; j++) {
-   if (i == 0 &amp;&amp; j == 0)
-   temp[j] = matrix[i][j]; // If we're at the top-left cell, the minimum sum is its value
-   else {
-   int up = matrix[i][j];
-   if (i &gt; 0)
-   up += prev[j]; // Add the value from above if it's not out of bounds
-   else
-   up += (int) Math.pow(10, 9); // Add a large value if out of bounds in the up direction
-   int left = matrix[i][j];
-   if (j &gt; 0)
-   left += temp[j - 1]; // Add the value from the left if it's not out of bounds
-   else
-   left += (int) Math.pow(10, 9); // Add a large value if out of bounds in the left direction
-   // Store the minimum of the two possible paths in the current cell
-   temp[j] = Math.min(up, left);
-   }
-   }
-   // Update the previous row with the values of the current row
-   prev = temp;
-   }
-   // The final result is stored in the last element of the previous row
-   return prev[m - 1];
-   }
-   public static void main(String args[]) {
-   // Define the matrix
-   int matrix[][] = {
-   {5, 9, 6},
-   {11, 5, 2}
-   };
-   int n = matrix.length;
-   int m = matrix[0].length;
-   // Calculate and print the minimum sum path in the matrix
-   System.out.println(minSumPath(n, m, matrix));
-   }
-  }
-  </code>
-  </pre>
-  </div>
-  <div data-lang="python">
-  <div><strong>Code: Python</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="python">
-  def minSumPath(n, m, matrix):
-   # Initialize the 'prev' list to keep track of the minimum cost in the previous row.
-   prev = [0] * m
-   # Loop through each row of the matrix.
-   for i in range(n):
-   # Initialize a temporary list to store the minimum cost for the current row.
-   temp = [0] * m
-   # Loop through each cell in the current row.
-   for j in range(m):
-   if i == 0 and j == 0:
-   # Base case: If we are at the top-left corner, set 'temp[j]' to the value of that cell.
-   temp[j] = matrix[i][j]
-   else:
-   # Calculate the cost of moving up from the cell (i, j).
-   up = matrix[i][j]
-   if i &gt; 0:
-   up += prev[j]
-   else:
-   # If we are at the top row and can't move up, set 'up' to a large value.
-   up = int(1e9)
-   # Calculate the cost of moving left from the cell (i, j).
-   left = matrix[i][j]
-   if j &gt; 0:
-   left += temp[j-1]
-   else:
-   # If we are at the leftmost column and can't move left, set 'left' to a large value.
-   left = int(1e9)
-   # Store the minimum cost of reaching the current cell in 'temp[j]'.
-   temp[j] = min(up, left)
-   # Update 'prev' with the 'temp' list for the next iteration.
-   prev = temp
-   # The result is stored in the last element of the 'prev' list (bottom-right corner).
-   return prev[m - 1]
-  def main():
-   # Example matrix with values representing cell costs.
-   matrix = [[5, 9, 6], [11, 5, 2]]
-   n = len(matrix)
-   m = len(matrix[0])
-   # Call the minSumPath function and print the result.
-   print(minSumPath(n, m, matrix))
-  if __name__ == '__main__':
-   main()
-  </code>
-  </pre>
-  </div>
-  <div data-lang="javascript">
-  <div><strong>Code: Jvascript</strong></div><pre tabindex="0" style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code lang="javascript">
-  // Define a function to find the minimum sum path in a matrix
-  function minSumPath(n, m, matrix) {
-   // Create an array 'prev' to store the minimum sum for the previous row
-   let prev = new Array(m).fill(0);
-   // Loop through each row in the matrix
-   for (let i = 0; i &lt; n; i++) {
-   // Create an array 'temp' to store the minimum sum for the current row
-   let temp = new Array(m).fill(0);
-   // Loop through each cell in the current row
-   for (let j = 0; j &lt; m; j++) {
-   if (i === 0 &amp;&amp; j === 0) {
-   // If we are at the top-left cell, set temp[j] to the value in the matrix
-   temp[j] = matrix[i][j];
-   } else {
-   // Calculate the sum of the current cell and the minimum of the two possible paths (from above and from the left)
-   let up = matrix[i][j];
-   if (i &gt; 0) up += prev[j];
-   else up += Infinity; // Set to a large value for the top row
-   let left = matrix[i][j];
-   if (j &gt; 0) left += temp[j - 1];
-   else left += Infinity; // Set to a large value for the leftmost column
-   // Store the minimum sum in temp[j]
-   temp[j] = Math.min(up, left);
-   }
-   }
-   // Update 'prev' with 'temp' for the next row
-   prev = temp;
-   }
-   // The minimum sum path will be in the last element of 'prev' array
-   return prev[m - 1];
-  }
-  // Define the matrix as a 2D array
-  const matrix = [
-   [5, 9, 6],
-   [11, 5, 2],
-  ];
-  // Get the dimensions of the matrix
-  const n = matrix.length;
-  const m = matrix[0].length;
-  // Call the minSumPath function and print the result
-  console.log(minSumPath(n, m, matrix));
-  </code>
-  </pre>
-  </div>
-  <pre style="background:#eee; padding:1rem; border-radius:5px; overflow:auto"><code> Output:21</code></pre>
-  </div>
-  </details> <details> <summary> Complexity Analysis </summary>
-  <p></p>
-  <p><strong>Time Complexity: O(M*N)</strong></p>
-  <p>Reason: There are two nested loops</p>
-  <p><strong>Space Complexity: O(N)</strong></p>
-  <p>Reason: We are using an external array of size ‘N’ to store only one row.</p>
-  </details></div>
-  </details></div>
-  </div>
   <div><details> <summary> Video Explanation </summary>
-  <div> <iframe title="Minimum Path Sum in Grid" src="https://www.youtube.com/embed/_rgTlyky1uQ?feature=oembed" width="810" height="456" frameborder="0" allowfullscreen="allowfullscreen" data-lazy-type="iframe" data-src="https://www.youtube.com/embed/_rgTlyky1uQ?si=AzcGwb6hkwcoQc7O"></iframe><noscript>
-  <iframe loading="lazy" title="Minimum Path Sum in Grid" width="810" height="456" src="https://www.youtube.com/embed/_rgTlyky1uQ?si=AzcGwb6hkwcoQc7O" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe></noscript></div>
+  <div> <iframe title="YouTube video player" src="https://www.youtube.com/embed/Z_NEgBgbRVI?si=Vjslr82fDdGhXPxJ" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe></div>
   </details></div>
   
   </div>
