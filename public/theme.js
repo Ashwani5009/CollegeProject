@@ -147,6 +147,7 @@ function updateFallbackButton(themeToggle, theme) {
 }
 
 // Applies theme-specific styles to code blocks in extraDetailsHtml
+// Applies theme-specific styles to code blocks in extraDetailsHtml
 function applyThemeToExtraDetails() {
     const isDark = document.body.classList.contains('dark');
     const preTags = document.querySelectorAll('#problem-full-content pre');
@@ -162,7 +163,6 @@ function applyThemeToExtraDetails() {
         code.style.color = isDark ? '#f8f8f2' : '#333';
     });
 }
-
 
 // Initialize theme when DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initTheme);

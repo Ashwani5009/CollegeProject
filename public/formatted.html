@@ -1,311 +1,454 @@
-<div ><div>
-  <div>
-    
+<div style="max-width: 900px; margin: auto; padding: 24px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333;"><div>
+<p><strong>Problem Statement: </strong>Given the root of a Binary Tree, return the preorder, inorder and postorder traversal sequence of the given tree by making just one traversal.</p>
+<!-- This is Examples Drop-Down -->
+<div><details> <summary> <strong> Examples </strong> </summary>
+<div>
+<div><strong>Code:</strong></div><pre style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;">Input: Binary Tree: 4 2 5 3 -1 7 6 -1 9 -1 -1 8 -1 1</pre>
+<figure><img src="https://static.takeuforward.org/content/preorder-post-image2-lz-2xjio" alt=""></figure>
+<div><strong>Code:</strong></div><pre style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;">Output: Preorder: [4, 2, 3, 9, 1, 5, 7, 6, 8], Inorder: [3, 1, 9, 2, 4, 7, 5, 8, 6], Postorder: [1, 9, 3, 2, 7, 8, 6, 5, 4] 
+Explanation:</pre>
+<figure><img src="https://static.takeuforward.org/content/preorder-post-image3-2KCfv_46" alt=""></figure>
+<div><strong>Code:</strong></div><pre style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;">Input: Binary Tree: 1 2 3 4 5 6 7 -1 -1 8 -1 -1 -1 9 10</pre>
+<figure><img src="https://static.takeuforward.org/content/preorder-post-binarytree-image1-3G6JAHpq" alt=""></figure>
+<div><strong>Code:</strong></div><pre style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;">Output: Preorder: [1, 2, 4, 5, 8, 3, 6, 7, 9, 10], Inorder: [4, 2, 8, 5, 1, 6, 3, 9, 7, 10], Postorder: [4, 8, 5, 2, 6, 9, 10, 7, 3, 1] 
+Explanation: The three traversal of the tree are given above.
+            </pre>
+</div>
+</details></div>
+<p><strong><em>Disclaimer</em></strong>: <em>It's highly recommend trying to solve it before looking at the solution. </em></p>
 
-  </div>
-  <div>
+<!-- This is Approaches Drop-Down -->
+<div><!-- Approach - 1 Starts from here -->
+<div><details open=""> <summary> Approach </summary>
+<div><details> <summary> Algorithm </summary>
+<div>This approach traverses the binary tree in a single pass while computing the preorder, inorder and postorder traversals at the same time. A stack is used for state management. The stack keeps track of the traversal state for each node. It stores nodes and their state information allowing the algorithm to resume traversal from intermediate points. For each node, it identifies its state i.e. if it's in the preorder state, it records the node's value and pushes the left child onto the stack. Moving to the inorder state, it records the node's value and pushes the right child onto the stack. Finally, in the post-order state, it stores the node's value and pops the node. As the algorithm executes over each node, it pushes each value in separate arrays for preorder, inorder and postorder traversals depending upon the current order and sequence. Hence, we are able to traverse the tree just once and get all three traversals from it.
+<ul>
+<ul>
+<li>Start at the root of the binary tree.Initialise a stack that holds a tree node and an integer value representing its state corresponding to pre order, inorder and postorder. Initialise empty arrays to store the three traversals as well.Check if the tree is empty. If so, return empty traversals.</li>
+</ul>
+</ul>
+<figure><img src="https://static.takeuforward.org/content/post_order_image4-4ayNSqzr" alt=""></figure>
+<ul>
+<ul>
+<li>Push the root node onto the stack along with its state ‘1’ (preorder) to start the traversal.</li>
+<li>While the stack isn’t empty, pop the top node of the stack and for each node:
+<ul>
+<li>If the state is ‘1’ ie. preorder: store the node’s data in the preorder array and move its state to 2 (inorder) for this node. Push this updated state back onto the stack and push its left child as well.</li>
+<li>If the state is ‘2’ ie. inorder: store the node’s data is the inorder array and update its state to 3 (postorder) for this node. Push the updated state back onto the stack and push the right child onto the stack as well.</li>
+<li>If the state is ‘3’ ie. postorder: store the node’s data in the postorder array and pop it.</li>
+</ul>
+</li>
+</ul>
+</ul>
+<figure><img src="https://static.takeuforward.org/content/preorder-post-binarytree-image6-RyxeaYpQ" alt=""></figure>
+<ul>
+<li>Return the preorder, inorder and postorder array.</li>
+</ul>
+</div>
+</details> <details open=""><summary> Code </summary>
+<div>
+<div><button>Cpp</button><button>Java</button><button>Python</button><button>Javascript</button></div>
+</div>
+<div>
+<div>
 
-  <div>
-  <p><strong>Problem Statement: </strong>Given the root of a Binary Tree, write a recursive function that returns an array containing the inorder traversal of the tree.</p>
-  <div><details> <summary> <strong> Examples </strong> </summary>
-  <div>
-  <div></div><pre style="padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <strong>Example 1:</strong>
-  <strong>Input:</strong> Binary Tree: 4 2 5 3 -1 7 6 -1 9 -1 -1 8 -1 1</pre>
-  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image1-OddKAHS_" alt="" width="439" height="286"></figure>
-  <div></div><pre style=" padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><strong>Output:</strong> Output: [3, 1, 9, 2, 4, 7, 5, 8, 6]
-  <strong>Explanation: </strong>We traverse the binary tree in the order of Left, Root then Right recursively resulting in the following traversal:</pre>
-  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image2-Ig46S3iB" alt="" width="439" height="286"></figure>
-  <div></div><pre style="padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><strong>Example 2:</strong>
-  <strong>Input:</strong> Binary Tree: 1 2 3 4 5 6 7 -1 -1 8 -1 -1 -1 9 10</pre>
-  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image3-GfMyz57G" alt="" width="439" height="286"></figure>
-  <div></div><pre style="adding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><strong>Output :</strong> [1 2 4 5 8 3 6 7 9 10]
-  <strong>Explanation: </strong>We traverse the binary tree in the order of Root, Left then Right recursively resulting in the following traversal:</pre>
-  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image4-c7MYU1Kf" alt="" width="439" height="286"></figure>
-  </div>
-  </details></div>
-  <p><strong><em>Disclaimer</em></strong>: <em>Don’t jump directly to the solution, try it out yourself first. </em></p>
+<div><strong>Code:</strong></div><pre style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// Node structure for the binary tree
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    // Constructor to initialize
+    // the node with a value
+    Node(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+// Solution class containing the traversal function
+class Solution {
+public:
+    // Function to get the Preorder,
+    // Inorder and Postorder traversal
+    // Of Binary Tree in One traversal
+    vector&lt;vector&lt;int&gt;&gt; preInPostTraversal(Node* root) {
+        // Vectors to store traversals
+        vector&lt;int&gt; pre, in, post;
+        // If the tree is empty,
+        // return empty traversals
+        if (root == NULL) {
+            return {};
+        }
+        // Stack to maintain nodes
+        // and their traversal state
+        stack&lt;pair&lt;Node*, int&gt;&gt; st;
+        // Start with the root node
+        // and state 1 (preorder)
+        st.push({root, 1});
+        while (!st.empty()) {
+            auto it = st.top();
+            st.pop();
+            // this is part of pre
+            if (it.second == 1) {
+                // Store the node's data
+                // in the preorder traversal
+                pre.push_back(it.first-&gt;data);
+                // Move to state 2
+                // (inorder) for this node
+                it.second = 2;
+                // Push the updated state
+                // back onto the stack
+                st.push(it); 
+                // Push left child onto
+                // the stack for processing
+                if (it.first-&gt;left != NULL) {
+                    st.push({it.first-&gt;left, 1});
+                }
+            }
+            // this is a part of in
+            else if (it.second == 2) {
+                // Store the node's data
+                // in the inorder traversal
+                in.push_back(it.first-&gt;data);
+                // Move to state 3
+                // (postorder) for this node
+                it.second = 3;
+                // Push the updated state
+                // back onto the stack
+                st.push(it); 
+                // Push right child onto
+                // the stack for processing
+                if (it.first-&gt;right != NULL) {
+                    st.push({it.first-&gt;right, 1});
+                }
+            }
+            // this is part of post
+            else {
+                // Store the node's data
+                // in the postorder traversal
+                post.push_back(it.first-&gt;data);
+            }
+        }
+        // Returning the traversals
+        vector&lt;vector&lt;int&gt;&gt; result;
+        result.push_back(pre);
+        result.push_back(in);
+        result.push_back(post);
+        return result;
+    }
+};
+// Main function
+int main()
+{
+    // Creating a sample binary tree
+    Node* root = new Node(1);
+    root-&gt;left = new Node(2);
+    root-&gt;right = new Node(3);
+    root-&gt;left-&gt;left = new Node(4);
+    root-&gt;left-&gt;right = new Node(5);
+    // Create object of Solution class
+    Solution sol;
+    // Getting the pre-order, in-order,
+    // and post-order traversals
+    vector&lt;int&gt; pre, in, post;
+    vector&lt;vector&lt;int&gt;&gt; traversals = sol.preInPostTraversal(root);
+    // Extracting the traversals
+    // from the result
+    pre = traversals[0];
+    in = traversals[1];
+    post = traversals[2];
+    // Printing the traversals
+    cout &lt;&lt; "Preorder traversal: ";
+    for (int val : pre) {
+        cout &lt;&lt; val &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+    cout &lt;&lt; "Inorder traversal: ";
+    for (int val : in) {
+        cout &lt;&lt; val &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+    cout &lt;&lt; "Postorder traversal: ";
+    for (int val : post) {
+        cout &lt;&lt; val &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+</div>
+<div>
 
-  <div><details> <summary> Optimal Approach </summary>
-  <div><details open=""> <summary> Algorithm / Intuition </summary>
-  <div>
-  <p>Inorder traversal stands as one of the depth-first traversal techniques for navigating nodes in a binary tree. The method starts by exploring the left subtree recursively in the following order: left child, root node, right child. Initially, it traverses the left subtree until reaching the leftmost node. Upon reaching a null node, signifying the end of a subtree, the recursive process halts.Then we visit the current node that had invoked the inorder on its left child. After visiting the current node we visit the right subtree in the inorder manner as well.</p>
-  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image5-X1qcF1OC" alt="" width="439" height="286"></figure>
-  <p><strong>Base Case:</strong> If the current node is null, it means we have reached the end of a subtree and there are no further nodes to explore. Hence the recursive function stops and we return from that particular recursive call.</p>
-  <p><strong>Recursive Function:</strong></p>
-  <ol>
-  <li><strong>Traverse Left Subtree:</strong> Recursively traverse the left subtree by invoking the preorder function on the left child of the current node. This step continues the exploration of nodes in a depth first manner.</li>
-  <li><strong>Process Current Node:</strong> The recursive function begins by processing ie. adding to the array or printing the current node.</li>
-  <li><strong>Traverse Right Subtree:</strong> After traversing the entire left subtree,we traverse the right subtree recursively. We once again invoke the preorder function, but this time on the right child of the current node.</li>
-  </ol>
-  <p><strong>Algorithm:</strong></p>
-  <p><strong>Step 1:</strong> Check for base case that if the current node is null, return the void function.</p>
-  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image6-esWBb7Ks" alt="" width="439" height="286"></figure>
-  <p><strong>Step 2:</strong> Invoke the inorder function on the left child to traverse the entire left subtree first.</p>
-  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image7-_I3QwQ_R" alt="" width="439" height="286"></figure>
-  <p><strong>Step 3:</strong> Push the value of the current node into the preorder traversal array.</p>
-  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image8-5cHBpJTs" alt="" width="439" height="286"></figure>
-  <p><strong>Step 4:</strong> After visiting the current node, we invoke the inorder function on the right child to traverse the right subtree in the end.</p>
-  <figure><img src="https://static.takeuforward.org/content/Inorder-binarytree-image9-81NLp8CB" alt="" width="439" height="286"></figure>
-  </div>
-  </details> <details> <summary> Code </summary>
-  <div>
+<div><strong>Code:</strong></div><pre style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code>import java.util.*;
+// Node structure for the binary tree
+class Node {
+    int data;
+    Node left;
+    Node right;
+    // Constructor to initialize
+    // the node with a value
+    Node(int val) {
+        data = val;
+        left = null;
+        right = null;
+    }
+}
+// Solution class containing the traversal function
+class Solution {
+    // Function to get the Preorder,
+    // Inorder and Postorder traversal
+    // Of Binary Tree in One traversal
+    public List&lt;List&lt;Integer&gt;&gt; preInPostTraversal(Node root) {
+        // Lists to store traversals
+        List&lt;Integer&gt; pre = new ArrayList&lt;&gt;();
+        List&lt;Integer&gt; in = new ArrayList&lt;&gt;();
+        List&lt;Integer&gt; post = new ArrayList&lt;&gt;();
+        // If the tree is empty,
+        // return empty traversals
+        if (root == null) {
+            return new ArrayList&lt;&gt;();
+        }
+        // Stack to maintain nodes
+        // and their traversal state
+        Stack&lt;Pair&lt;Node, Integer&gt;&gt; st = new Stack&lt;&gt;();
+        // Start with the root node
+        // and state 1 (preorder)
+        st.push(new Pair&lt;&gt;(root, 1));
+        while (!st.empty()) {
+            Pair&lt;Node, Integer&gt; it = st.pop();
+            // this is part of pre
+            if (it.getValue() == 1) {
+                // Store the node's data
+                // in the preorder traversal
+                pre.add(it.getKey().data);
+                // Move to state 2
+                // (inorder) for this node
+                it.setValue(2);
+                // Push the updated state
+                // back onto the stack
+                st.push(it);
+                // Push left child onto
+                // the stack for processing
+                if (it.getKey().left != null) {
+                    st.push(new Pair&lt;&gt;(it.getKey().left, 1));
+                }
+            }
+            // this is a part of in
+            else if (it.getValue() == 2) {
+                // Store the node's data
+                // in the inorder traversal
+                in.add(it.getKey().data);
+                // Move to state 3
+                // (postorder) for this node
+                it.setValue(3);
+                // Push the updated state
+                // back onto the stack
+                st.push(it);
+                // Push right child onto
+                // the stack for processing
+                if (it.getKey().right != null) {
+                    st.push(new Pair&lt;&gt;(it.getKey().right, 1));
+                }
+            }
+            // this is part of post
+            else {
+                // Store the node's data
+                // in the postorder traversal
+                post.add(it.getKey().data);
+            }
+        }
+        // Returning the traversals
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        result.add(pre);
+        result.add(in);
+        result.add(post);
+        return result;
+    }
+    // Function to print the elements of a list
+    public void printList(List&lt;Integer&gt; list) {
+        for (int num : list) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+}
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        // Creating a sample binary tree
+        Node root = new Node(1);
+        root.left = new Node(2);
+        root.right = new Node(3);
+        root.left.left = new Node(4);
+        root.left.right = new Node(5);
+        // Create object of Solution class
+        Solution sol = new Solution();
+        // Getting the pre-order, in-order,
+        // and post-order traversals
+        List&lt;List&lt;Integer&gt;&gt; traversals = sol.preInPostTraversal(root);
+        // Extracting the traversals
+        List&lt;Integer&gt; pre = traversals.get(0);
+        List&lt;Integer&gt; in = traversals.get(1);
+        List&lt;Integer&gt; post = traversals.get(2);
+        // Printing the traversals
+        System.out.print("Preorder traversal: ");
+        sol.printList(pre);
+        System.out.print("Inorder traversal: ");
+        sol.printList(in);
+        System.out.print("Postorder traversal: ");
+        sol.printList(post);
+    }
+}
+</code></pre>
+</div>
+<div>
 
-  </div>
-  <div>
-  <div data-lang="cpp">
-  <div><strong>Code: C++</strong></div><pre tabindex="0" style=" padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <code lang="cpp">
-  #include &lt;iostream&gt;
-  #include &lt;vector&gt;
-  using namespace std;
-  // Node structure for the binary tree
-  struct Node {
-   int data;
-   Node* left;
-   Node* right;
-   // Constructor to initialize
-   // the node with a value
-   Node(int val) : data(val), left(nullptr), right(nullptr) {}
-  };
-  // Function to perform inorder traversal
-  // of the tree and store values in 'arr'
-  void inorder(Node* root, vector&lt;int&gt; &amp;arr){
-   // If the current node is NULL
-   // (base case for recursion), return
-   if(root == nullptr){
-   return;
-   }
-   // Recursively traverse the left subtree
-   inorder(root-&gt;left, arr);
-   // Push the current node's
-   // value into the vector
-   arr.push_back(root-&gt;data);
-   // Recursively traverse
-   // the right subtree
-   inorder(root-&gt;right, arr);
-  }
-  // Function to initiate inorder traversal
-  // and return the resulting vector
-  vector&lt;int&gt; inOrder(Node* root){
-   // Create an empty vector to
-   // store inorder traversal values
-   vector&lt;int&gt; arr;
-   // Call the inorder traversal function
-   inorder(root, arr);
-   // Return the resulting vector
-   // containing inorder traversal values
-   return arr;
-  }
-  // Main function
-  int main()
-  {
-   // Creating a sample binary tree
-   Node* root = new Node(1);
-   root-&gt;left = new Node(2);
-   root-&gt;right = new Node(3);
-   root-&gt;left-&gt;left = new Node(4);
-   root-&gt;left-&gt;right = new Node(5);
-   // Getting inorder traversal
-   vector&lt;int&gt; result = inOrder(root);
-   // Displaying the inorder traversal result
-   cout &lt;&lt; "Inorder Traversal: ";
-   // Output each value in the
-   // inorder traversal result
-   for(int val : result) {
-   cout &lt;&lt; val &lt;&lt; " ";
-   }
-   cout &lt;&lt; endl;
-   return 0;
-  }
-   </code>
-   </pre>
-  </div>
-  <div data-lang="java">
-  <div><strong>Code: Java</strong></div><pre tabindex="0" style="padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <code lang="java">
-  import java.util.ArrayList;
-  import java.util.List;
-  // Node class for the binary tree
-  class Node {
-   int data;
-   Node left;
-   Node right;
-   // Constructor to initialize
-   // the node with a value
-   Node(int val) {
-   data = val;
-   left = null;
-   right = null;
-   }
-  }
-  public class BinaryTreeInorderTraversal {
-   // Function to perform inorder traversal
-   // of the tree and store values in 'arr'
-   public static void inorder(Node root, List&lt;Integer&gt; arr) {
-   // If the current node is null
-   // (base case for recursion), return
-   if (root == null) {
-   return;
-   }
-   // Recursively traverse the left subtree
-   inorder(root.left, arr);
-   // Push the current node's
-   // value into the list
-   arr.add(root.data);
-   // Recursively traverse
-   // the right subtree
-   inorder(root.right, arr);
-   }
-   // Function to initiate inorder traversal
-   // and return the resulting list
-   public static List&lt;Integer&gt; inOrder(Node root) {
-   // Create an empty list to
-   // store inorder traversal values
-   List&lt;Integer&gt; arr = new ArrayList&lt;&gt;();
-   // Call the inorder traversal function
-   inorder(root, arr);
-   // Return the resulting list
-   // containing inorder traversal values
-   return arr;
-   }
-   // Main function
-   public static void main(String[] args) {
-   // Creating a sample binary tree
-   Node root = new Node(1);
-   root.left = new Node(2);
-   root.right = new Node(3);
-   root.left.left = new Node(4);
-   root.left.right = new Node(5);
-   // Getting inorder traversal
-   List&lt;Integer&gt; result = inOrder(root);
-   // Displaying the inorder traversal result
-   System.out.print("Inorder Traversal: ");
-   // Output each value in the
-   // inorder traversal result
-   for (int val : result) {
-   System.out.print(val + " ");
-   }
-   System.out.println();
-   }
-  }
-   </code>
-   </pre>
-  </div>
-  <div data-lang="python">
-  <div><strong>Code: Python</strong></div><pre tabindex="0" style=" padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <code lang="python">
-  # Node class for the binary tree
-  class Node:
-   def __init__(self, val):
-   self.data = val
-   self.left = None
-   self.right = None
-  # Function to perform inorder traversal
-  # of the tree and store values in 'arr'
-  def inorder(root, arr):
-   # If the current node is None
-   # (base case for recursion), return
-   if root is None:
-   return
-   # Recursively traverse the left subtree
-   inorder(root.left, arr)
-   # Append the current node's
-   # value into the list
-   arr.append(root.data)
-   # Recursively traverse
-   # the right subtree
-   inorder(root.right, arr)
-  # Function to initiate inorder traversal
-  # and return the resulting list
-  def in_order(root):
-   # Create an empty list to
-   # store inorder traversal values
-   arr = []
-   # Call the inorder traversal function
-   inorder(root, arr)
-   # Return the resulting list
-   # containing inorder traversal values
-   return arr
-  # Main function
-  if __name__ == "__main__":
-   # Creating a sample binary tree
-   root = Node(1)
-   root.left = Node(2)
-   root.right = Node(3)
-   root.left.left = Node(4)
-   root.left.right = Node(5)
-   # Getting inorder traversal
-   result = in_order(root)
-   # Displaying the inorder traversal result
-   print("Inorder Traversal:", end=" ")
-   # Output each value in the
-   # inorder traversal result
-   for val in result:
-   print(val, end=" ")
-   print()
-   </code>
-   </pre>
-  </div>
-  <div data-lang="javascript">
-  <div><strong>Code: Javascript</strong></div><pre tabindex="0" style="padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"> <code lang="javascript">
-  // Node class for the binary tree
-  class Node {
-   constructor(val) {
-   this.data = val;
-   this.left = null;
-   this.right = null;
-   }
-  }
-  // Function to perform inorder traversal
-  // of the tree and store values in 'arr'
-  function inorder(root, arr) {
-   // If the current node is null
-   // (base case for recursion), return
-   if (root === null) {
-   return;
-   }
-   // Recursively traverse the left subtree
-   inorder(root.left, arr);
-   // Push the current node's
-   // value into the array
-   arr.push(root.data);
-   // Recursively traverse
-   // the right subtree
-   inorder(root.right, arr);
-  }
-  // Function to initiate inorder traversal
-  // and return the resulting array
-  function inOrder(root) {
-   // Create an empty array to
-   // store inorder traversal values
-   const arr = [];
-   // Call the inorder traversal function
-   inorder(root, arr);
-   // Return the resulting array
-   // containing inorder traversal values
-   return arr;
-  }
-  // Creating a sample binary tree
-  const root = new Node(1);
-  root.left = new Node(2);
-  root.right = new Node(3);
-  root.left.left = new Node(4);
-  root.left.right = new Node(5);
-  // Getting inorder traversal
-  const result = inOrder(root);
-  // Displaying the inorder traversal result
-  console.log("Inorder Traversal: " + result.join(" "));
-   </code>
-   </pre>
-  </div>
-  <p style = 'padding:1rem; border-radius:5px; overflow:auto'> <strong>Output</strong> Inorder Traversal: 4 2 5 1 3</p>
-  </div>
-  </details> <details> <summary> Complexity Analysis </summary>
-  <p></p>
-  <p><strong>Time Complexity: O(N)</strong> where N is the number of nodes in the binary tree as each node of the binary tree is visited exactly once.</p>
-  <p><strong>Space Complexity: O(N)</strong> where N is the number of nodes in the binary tree. This is because the recursive stack uses an auxiliary space which can potentially hold all nodes in the tree when dealing with a skewed tree (all nodes have only one child), consuming space proportional to the number of nodes.In the average case or for a balanced tree, the maximum number of nodes that could be in the stack at any given time would be roughly the height of the tree hence O(log2N).</p>
-  </details></div>
-  </details></div>
-  <div><details> <summary> Video Explanation </summary>
-  <div> <iframe title="YouTube video player" src="https://www.youtube.com/embed/Z_NEgBgbRVI?si=Vjslr82fDdGhXPxJ" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe></div>
-  </details></div>
-  
-  </div>
-  </div></div>
+<div><strong>Code:</strong></div><pre style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code># Node structure for the binary tree
+class Node:
+    # Constructor to initialize the node with a value
+    def __init__(self, val):
+        self.data = val
+        self.left = None
+        self.right = None
+# Solution class containing the traversal function
+class Solution:
+    # Function to get the Preorder,
+    # Inorder and Postorder traversal
+    # Of Binary Tree in One traversal
+    def preInPostTraversal(self, root):
+        # Lists to store traversals
+        pre, ino, post = [], [], []
+        # If the tree is empty, return empty traversals
+        if root is None:
+            return []
+        # Stack to maintain nodes and their traversal state
+        st = [(root, 1)]
+        while st:
+            node, state = st.pop()
+            # this is part of pre
+            if state == 1:
+                # Store the node's data in the preorder traversal
+                pre.append(node.data)
+                # Move to state 2 (inorder) for this node
+                st.append((node, 2))
+                # Push left child onto the stack for processing
+                if node.left:
+                    st.append((node.left, 1))
+            # this is a part of in
+            elif state == 2:
+                # Store the node's data in the inorder traversal
+                ino.append(node.data)
+                # Move to state 3 (postorder) for this node
+                st.append((node, 3))
+                # Push right child onto the stack for processing
+                if node.right:
+                    st.append((node.right, 1))
+            # this is part of post
+            else:
+                # Store the node's data in the postorder traversal
+                post.append(node.data)
+        # Returning the traversals
+        return [pre, ino, post]
+# Main function
+if __name__ == "__main__":
+    # Creating a sample binary tree
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.left = Node(4)
+    root.left.right = Node(5)
+    # Create object of Solution class
+    sol = Solution()
+    # Getting the traversals
+    traversals = sol.preInPostTraversal(root)
+    # Extracting and printing the traversals
+    pre = traversals[0]
+    ino = traversals[1]
+    post = traversals[2]
+    print("Preorder traversal:", *pre)
+    print("Inorder traversal:", *ino)
+    print("Postorder traversal:", *post)
+</code></pre>
+</div>
+<div>
+
+<div><strong>Code:</strong></div><pre style="background-color: #f8f9fa; padding: 16px; border-radius: 10px; overflow-x: auto; font-family: monospace; font-size: 15px;"><code>// Node structure for the binary tree
+class Node {
+    // Constructor to initialize the node with a value
+    constructor(val) {
+        this.data = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+// Solution class containing the traversal function
+class Solution {
+    // Function to get the Preorder,
+    // Inorder and Postorder traversal
+    // Of Binary Tree in One traversal
+    preInPostTraversal(root) {
+        // Arrays to store traversals
+        let pre = [], ino = [], post = [];
+        // If the tree is empty, return empty traversals
+        if (root === null) return [];
+        // Stack to maintain nodes and their traversal state
+        let st = [[root, 1]];
+        while (st.length &gt; 0) {
+            let [node, state] = st.pop();
+            // this is part of pre
+            if (state === 1) {
+                // Store the node's data in the preorder traversal
+                pre.push(node.data);
+                // Move to state 2 (inorder) for this node
+                st.push([node, 2]);
+                // Push left child onto the stack for processing
+                if (node.left !== null) {
+                    st.push([node.left, 1]);
+                }
+            }
+            // this is a part of in
+            else if (state === 2) {
+                // Store the node's data in the inorder traversal
+                ino.push(node.data);
+                // Move to state 3 (postorder) for this node
+                st.push([node, 3]);
+                // Push right child onto the stack for processing
+                if (node.right !== null) {
+                    st.push([node.right, 1]);
+                }
+            }
+            // this is part of post
+            else {
+                // Store the node's data in the postorder traversal
+                post.push(node.data);
+            }
+        }
+        // Returning the traversals
+        return [pre, ino, post];
+    }
+}
+// Main driver code
+function main() {
+    // Creating a sample binary tree
+    let root = new Node(1);
+    root.left = new Node(2);
+    root.right = new Node(3);
+    root.left.left = new Node(4);
+    root.left.right = new Node(5);
+    // Create object of Solution class
+    let sol = new Solution();
+    // Getting the traversals
+    let [pre, ino, post] = sol.preInPostTraversal(root);
+    // Printing the traversals
+    console.log("Preorder traversal:", pre.join(" "));
+    console.log("Inorder traversal:", ino.join(" "));
+    console.log("Postorder traversal:", post.join(" "));
+}
+// Call the main function
+main();
+</code></pre>
+</div>
+</div>
+</details> <details> <summary> Complexity Analysis. </summary> <!-- Insert Time and Space Complexity  Here --> <strong>Time Complexity: O(3*N)</strong>, we process each node thrice, once for every traversal.<br> <strong>Space Complexity: O(4*N)</strong>, extra space used for storing postorder, inorder, preorder traversal and stack. </details></div>
+</details></div>
+<!-- Approach -1 Ends here --></div>
+<!-- This is Video Explination Drop-Down --> <!-- <div>--> <!--    <details>--> <!--        <summary>--> <!--            --> <!--                Video Explanation--> <!--            --> <!--            <svg>--> <!--                --> <!--            </svg>--> <!--        </summary>--> <!--        <div>--> <!-- Insert iframe embed Link of Youtube Video--> <!--            <iframe src="https://www.youtube.com/embed/">
+<!--                frameborder="0"--> <!--                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"--> <!--                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>--> <!--        </div>--> <!--    </details>--> <!--</div> --> <!-- --></div></div>
