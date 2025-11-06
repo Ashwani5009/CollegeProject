@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const response = await fetch(`https://collegeproject-fnkx.onrender.com/api/problems/${problemId}`);
+        const response = await fetch(`http://localhost:5000/api/problems/${problemId}`);
         const data = await response.json();
 
         if (!response.ok) throw new Error(data.message || "Problem not found");
@@ -47,16 +47,40 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (typeof applyThemeToExtraDetails === 'function') {
             applyThemeToExtraDetails();
         }
-        
-
         if (data.extraDetailsHtml) {
-            extraDetailsElement.innerHTML = data.extraDetailsHtml;
-        } else {
-            extraDetailsElement.style.display = "none";
+          extraDetailsElement.innerHTML = data.extraDetailsHtml;
+
+          if (window.mermaid) {
+            if (!window.__mermaidInitDone) {
+              mermaid.initialize({
+                startOnLoad: false,
+                securityLevel: "loose",
+                theme: document.body.classList.contains("dark") ? "dark" : "default"
+              });
+              window.__mermaidInitDone = true;
+            }
+
+            // Clean and render Mermaid blocks
+            const blocks = extraDetailsElement.querySelectorAll(".mermaid");
+
+            blocks.forEach(block => {
+              let txt = block.textContent;
+
+              // Remove leading spaces
+              txt = txt.replace(/^\s+/gm, "");
+
+              // Make sure block contains valid start keyword
+              if (!txt.startsWith("flowchart") && !txt.startsWith("graph") && !txt.startsWith("sequenceDiagram")) {
+                console.warn("Skipping non-mermaid text:", txt);
+                return;
+              }
+
+              block.textContent = txt;
+            });
+
+            mermaid.run({ nodes: blocks }).catch(err => console.error("Mermaid render error:", err));
+          }
         }
-
-
-
 
     } catch (error) {
         console.error("Error fetching problem details:", error);

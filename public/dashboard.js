@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Fetch topics on page load
     try {
-        const topicResponse = await fetch("https://collegeproject-fnkx.onrender.com/api/topics");
+        const topicResponse = await fetch("http://localhost:5000/api/topics");
         const topics = await topicResponse.json();
         console.log(topics);
 
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Fetch problems for the selected topic
         try {
-            const response = await fetch(`https://collegeproject-fnkx.onrender.com/api/problems/by-topic/${selectedTopicId}`);
+            const response = await fetch(`http://localhost:5000/api/problems/by-topic/${selectedTopicId}`);
             const problems = await response.json();
 
             if (response.ok && problems.length > 0) {
