@@ -2,7 +2,7 @@ const fs = require('fs');
 const axios = require('axios');
 
 const PROBLEM_ID = '68bd2d40549932519abd067d'; // Replace with actual ID
-const API_URL = `http://localhost:5000/api/problems/${PROBLEM_ID}/extra-details`;
+const API_URL = `https://collegeproject-fnkx.onrender.com/api/problems/${PROBLEM_ID}/extra-details`;
 
 fs.readFile('formatted.html', 'utf-8', async (err, data) => {
   if (err) {
